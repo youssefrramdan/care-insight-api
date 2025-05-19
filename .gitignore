@@ -2,6 +2,6 @@
 node_modules/
 .vscode/
 # config/config.env
-Free-Gency-Api.postman_collection.json
-Free Gency - Prod.postman_environment.json/
+Prod- care-insight Api.postman_environment.json
+Dev- PFlow Api.postman_environment.json
 
