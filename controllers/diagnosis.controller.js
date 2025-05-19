@@ -9,7 +9,7 @@ const breastCancer = asyncHandler(async (req, res) => {
 
   // Call the breast cancer prediction API
   const response = await axios.post(
-    'https://breast-cancer-api-a37e93231e63.herokuapp.com/predict',
+    'https://breast-model-api.onrender.com/predict',
     {
       image_url: imageUrl,
     }
@@ -29,7 +29,7 @@ const brainCancer = asyncHandler(async (req, res) => {
 
   // Call the brain tumor prediction API
   const response = await axios.post(
-    'https://brain-cancer-api-62aa8ad242d6.herokuapp.com/predict',
+    'https://brain-model.onrender.com/predict',
     {
       image_url: imageUrl,
     }
