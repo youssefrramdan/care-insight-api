@@ -25,6 +25,7 @@ const brainCancer = asyncHandler(async (req, res) => {
     return res.status(400).json({ error: 'No image file provided' });
   }
 
+  // Get the Cloudinary URL from the uploaded file
   const imageUrl = req.file.path;
 
   // Call the brain tumor prediction API

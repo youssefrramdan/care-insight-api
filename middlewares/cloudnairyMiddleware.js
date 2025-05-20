@@ -23,7 +23,18 @@ const createUploader = folder => {
       public_id: (req, file) =>
         `${file.fieldname}-${Date.now()}-${file.originalname}`,
       format: async (req, file) => {
-        const allowedFormats = ['jpeg','jpg','png','pdf','doc','docx','xls','xlsx','ppt','pptx'];
+        const allowedFormats = [
+          'jpeg',
+          'jpg',
+          'png',
+          'pdf',
+          'doc',
+          'docx',
+          'xls',
+          'xlsx',
+          'ppt',
+          'pptx',
+        ];
         const ext = file.originalname.split('.').pop();
         if (allowedFormats.includes(ext)) {
           return ext;
@@ -37,7 +48,6 @@ const createUploader = folder => {
 };
 
 export default createUploader;
-
 
 /**
  *  disk storage
