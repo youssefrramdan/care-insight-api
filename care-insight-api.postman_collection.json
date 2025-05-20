@@ -1,1048 +1,1103 @@
 {
-	"info": {
-		"_postman_id": "1a62119a-ae39-4790-973e-982612ba0945",
-		"name": "care-insight-api",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "45047710",
-		"_collection_link": "https://care-insight-api.postman.co/workspace/Team-Workspace~6d205971-743e-410b-8a91-e1ae8098bbcd/collection/45047710-1a62119a-ae39-4790-973e-982612ba0945?action=share&source=collection_link&creator=45047710"
-	},
-	"item": [
-		{
-			"name": "Admin Management",
-			"item": [
-				{
-					"name": "Create User",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"fullName\": \"admin\",\n  \"email\": \"admin@gmail.com\",\n  \"phoneNumber\": \"+201234567892\",\n  \"gender\": \"male\",\n  \"password\": \"password123\",\n  \"role\": \"admin\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{URL}}/api/v1/users",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users"
-							]
-						},
-						"description": "Create a new user (Admin only)"
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Users",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{URL}}/api/v1/users",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users"
-							]
-						},
-						"description": "Get all users (Admin only)"
-					},
-					"response": []
-				},
-				{
-					"name": "Get User By ID",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{URL}}/api/v1/users/6828dd9d501ccc64b229effb",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"6828dd9d501ccc64b229effb"
-							]
-						},
-						"description": "Get specific user by ID (Admin only)"
-					},
-					"response": []
-				},
-				{
-					"name": "Update User",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"fullName\": \"Updated User Name\",\n  \"phoneNumber\": \"+201198765432\",\n  \"gender\": \"male\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{URL}}/api/v1/users/:id",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "USER_ID_HERE",
-									"description": "User ID"
-								}
-							]
-						},
-						"description": "Update a user (Admin only)"
-					},
-					"response": []
-				},
-				{
-					"name": "Delete User",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{URL}}/api/v1/users/682c6cfc624d99572193a4d3",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"682c6cfc624d99572193a4d3"
-							]
-						},
-						"description": "Delete a user (Admin only)"
-					},
-					"response": []
-				},
-				{
-					"name": "Change User Password",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"password\": \"newpassword456\",\n  \"passwordConfirm\": \"newpassword456\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{URL}}/api/v1/users/changePassword/:id",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"changePassword",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "USER_ID_HERE",
-									"description": "User ID"
-								}
-							]
-						},
-						"description": "Change a user's password (Admin only)"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Authentication",
-			"item": [
-				{
-					"name": "Registration",
-					"item": [
-						{
-							"name": "Register Patient",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"fullName\": \"Ahmed Mohamed\",\n  \"email\": \"rmdanyoussef01@gmail.com\",\n  \"phoneNumber\": \"+201234567890\",\n  \"gender\": \"male\",\n  \"password\": \"password123\",\n  \"age\": 30,\n  \"height\": 175,\n  \"weight\": 75,\n  \"bloodType\": \"O+\",\n  \"medicalCondition\": \"Healthy\",\n  \"chronicDiseases\": [\"Hypertension\", \"Diabetes\"],\n  \"currentMedications\": [\"Insulin\", \"Captopril\"]\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{URL}}/api/v1/auth/register",
-									"host": [
-										"{{URL}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"auth",
-										"register"
-									]
-								},
-								"description": "Register a new patient"
-							},
-							"response": []
-						},
-						{
-							"name": "Register Doctor",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"fullName\": \"Dr. ahmed\",\n  \"email\": \"rmdanyoussef2@gmail.com\",\n  \"phoneNumber\": \"+201234567891\",\n  \"gender\": \"male\",\n  \"password\": \"doctor123\",\n  \"specialtyId\": \"6828acf95556d140637c6689\",\n  \"clinicLocation\": \"123 Health St, Cairo\",\n  \"certifications\": [\"Board Certified\", \"PhD\"],\n  \"workingHours\": [\n    { \"day\": \"Monday\", \"from\": \"09:00\", \"to\": \"17:00\" },\n    { \"day\": \"Wednesday\", \"from\": \"10:00\", \"to\": \"18:00\" }\n  ]\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{URL}}/api/v1/auth/registerDoctor",
-									"host": [
-										"{{URL}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"auth",
-										"registerDoctor"
-									]
-								},
-								"description": "Register a new doctor"
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Login/Logout",
-					"item": [
-						{
-							"name": "Login",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.environment.set(\"JWT\",pm.response.json().token)"
-										],
-										"type": "text/javascript",
-										"packages": {}
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "// admin\n// {\n//   \"email\": \"admin@gmail.com\",\n//   \"password\": \"password123\"\n// }\n\n// doctor\n{\n  \"email\": \"rmdanyoussef2@gmail.com\",\n  \"password\": \"newpassword123\"\n}\n\n// patient\n// {\n//   \"email\": \"ahmed@example.com\",\n//   \"password\": \"password123\"\n// }\n\n\n",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{URL}}/api/v1/auth/login",
-									"host": [
-										"{{URL}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"auth",
-										"login"
-									]
-								},
-								"description": "Login to the application"
-							},
-							"response": []
-						},
-						{
-							"name": "Logout",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{JWT}}",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{URL}}/api/v1/auth/logout",
-									"host": [
-										"{{URL}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"auth",
-										"logout"
-									]
-								},
-								"description": "Logout from the application"
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Password Management",
-					"item": [
-						{
-							"name": "Forgot Password",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"email\": \"rmdanyoussef2@gmail.com\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{URL}}/api/v1/auth/forgot-password",
-									"host": [
-										"{{URL}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"auth",
-										"forgot-password"
-									]
-								},
-								"description": "Request a password reset"
-							},
-							"response": []
-						},
-						{
-							"name": "Verify Reset Code",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"resetCode\": \"285117\"\n} ",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{URL}}/api/v1/auth/verify-reset-code",
-									"host": [
-										"{{URL}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"auth",
-										"verify-reset-code"
-									]
-								},
-								"description": "Verify reset code sent to email"
-							},
-							"response": []
-						},
-						{
-							"name": "Reset Password",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"email\": \"rmdanyoussef2@gmail.com\",\n  \"newPassword\": \"newpassword123\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{URL}}/api/v1/auth/reset-password",
-									"host": [
-										"{{URL}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"auth",
-										"reset-password"
-									]
-								},
-								"description": "Reset user password"
-							},
-							"response": []
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Current User",
-			"item": [
-				{
-					"name": "Get My Profile",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{URL}}/api/v1/users/me",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"me"
-							]
-						},
-						"description": "Get the current user's profile"
-					},
-					"response": []
-				},
-				{
-					"name": "Upload Profile Image",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "profileImage",
-									"type": "file",
-									"src": "/C:/Users/Youssef Ramadan/Pictures/Screenshots/Screenshot 2025-05-12 205206.png"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{URL}}/api/v1/users/uploadImage",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"uploadImage"
-							]
-						},
-						"description": "Upload a profile image"
-					},
-					"response": []
-				},
-				{
-					"name": "Upload Medical Documents",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "medicalDocuments",
-									"type": "file",
-									"src": [
-										"/C:/Users/Youssef Ramadan/Pictures/Screenshots/Screenshot (3).png",
-										"/C:/Users/Youssef Ramadan/Pictures/Screenshots/Screenshot 2025-05-12 190444.png",
-										"/C:/Users/Youssef Ramadan/Pictures/Screenshots/Screenshot 2025-05-12 190557.png",
-										"/C:/Users/Youssef Ramadan/Pictures/Screenshots/Screenshot 2025-05-12 202451.png"
-									]
-								}
-							]
-						},
-						"url": {
-							"raw": "{{URL}}/api/v1/users/uploadMedicalDocuments",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"uploadMedicalDocuments"
-							]
-						},
-						"description": "Upload multiple medical documents (up to 5 files). This feature is useful for patients to share their medical records with doctors."
-					},
-					"response": []
-				},
-				{
-					"name": "Update My Profile",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "// PATIENT UPDATE PROFILE EXAMPLE (uncomment to use)\n// {\n//   \"fullName\": \"Updated Patient Name\",\n//   \"phoneNumber\": \"+201098765432\",\n//   \"gender\": \"male\",\n//   \"age\": 32,\n//   \"height\": 178,\n//   \"weight\": 80,\n//   \"bloodType\": \"A+\",\n//   \"medicalCondition\": \"Healthy\",\n//   \"chronicDiseases\": [\"Asthma\"],\n//   \"currentMedications\": [\"Ventolin\"]\n// }\n\n// DOCTOR UPDATE PROFILE EXAMPLE (uncomment to use)\n{\n  \"fullName\": \"Dr. Updated Name\",\n  \"phoneNumber\": \"+201076543210\",\n  \"gender\": \"female\",\n  \"specialty\": \"6828acf95556d140637c6689\",\n  \"clinicLocation\": \"456 Medical St, Cairo\",\n  \"certifications\": [\"Board Certified\", \"Fellowship\"],\n  \"ProfessionalBio\": \"Experienced doctor with 10 years of practice\",\n  \"YearsOfExperience\": 10\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{URL}}/api/v1/users/me",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"me"
-							]
-						},
-						"description": "Update current user's profile. Different fields are allowed based on user role (patient or doctor)."
-					},
-					"response": []
-				},
-				{
-					"name": "Change My Password",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"currentPassword\": \"password123\",\n  \"password\": \"newpassword456\",\n  \"passwordConfirm\": \"newpassword456\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{URL}}/api/v1/users/changePassword",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"changePassword"
-							]
-						},
-						"description": "Change the current user's password"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Medical Specialties",
-			"item": [
-				{
-					"name": "Create Specialty",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "Chest Cancer",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "Focused on lung, pleural, and mediastinal cancers affecting the chest cavity.",
-									"type": "text"
-								},
-								{
-									"key": "imageCover",
-									"type": "file",
-									"src": "/C:/Users/Youssef Ramadan/Desktop/3.jpg"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{URL}}/api/v1/specialties",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"specialties"
-							]
-						},
-						"description": "Create a new medical specialty (Admin only)"
-					},
-					"response": []
-				},
-				{
-					"name": "Get All Specialties",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{URL}}/api/v1/specialties",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"specialties"
-							]
-						},
-						"description": "Get all medical specialties"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Specialty By ID",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{URL}}/api/v1/specialties/:id",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"specialties",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "SPECIALTY_ID_HERE",
-									"description": "Specialty ID"
-								}
-							]
-						},
-						"description": "Get a specific medical specialty by ID"
-					},
-					"response": []
-				},
-				{
-					"name": "Update Specialty",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "Updated Specialty Name",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "Updated specialty description",
-									"type": "text"
-								},
-								{
-									"key": "specialty",
-									"type": "file",
-									"src": "/path/to/your/new-specialty-image.jpg",
-									"disabled": true
-								}
-							]
-						},
-						"url": {
-							"raw": "{{URL}}/api/v1/specialties/:id",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"specialties",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "SPECIALTY_ID_HERE",
-									"description": "Specialty ID"
-								}
-							]
-						},
-						"description": "Update a medical specialty (Admin only)"
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Specialty",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{URL}}/api/v1/specialties/:id",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"specialties",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "SPECIALTY_ID_HERE",
-									"description": "Specialty ID"
-								}
-							]
-						},
-						"description": "Delete a medical specialty (Admin only)"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Doctor",
-			"item": [
-				{
-					"name": "Update Working Hours (Doctor Only)",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"workingHours\": [\n    {\n      \"day\": \"Monday\",\n      \"from\": \"09:00 AM\",\n      \"to\": \"05:00 PM\"\n    },\n    {\n      \"day\": \"Tuesday\",\n      \"from\": \"10:00 AM\",\n      \"to\": \"06:00 PM\"\n    },\n    {\n      \"day\": \"Wednesday\",\n      \"from\": \"09:00 AM\",\n      \"to\": \"05:00 PM\"\n    },\n    {\n      \"day\": \"Thursday\",\n      \"from\": \"\",\n      \"to\": \"\"\n    },\n    {\n      \"day\": \"Friday\",\n      \"from\": \"\",\n      \"to\": \"\"\n    },\n    {\n      \"day\": \"Saturday\",\n      \"from\": \"\",\n      \"to\": \"\"\n    },\n    {\n      \"day\": \"Sunday\",\n      \"from\": \"\",\n      \"to\": \"\"\n    }\n  ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{URL}}/api/v1/users/updateWorkingHours",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"updateWorkingHours"
-							]
-						},
-						"description": "Update working hours for a doctor. Only available to authenticated doctors. The availability field will be automatically updated based on which days have from and to values."
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Patient",
-			"item": [
-				{
-					"name": "Get All Doctors",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{URL}}/api/v1/users/doctors?filterBy=Brain Cancer",
-							"host": [
-								"{{URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"doctors"
-							],
-							"query": [
-								{
-									"key": "filterBy",
-									"value": "Brain Cancer"
-								}
-							]
-						},
-						"description": "Get all doctors with their specialty information and profile details"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Diagnosis",
-			"item": [
-				{
-					"name": "Breast Cancer Prediction",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "image",
-									"description": "Breast cancer mammogram image",
-									"type": "file",
-									"src": "/P:/care-insigts models/Brain model/breast-model/test_images/benign/benign (1).png"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://127.0.0.1:8000/predict",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"predict"
-							]
-						},
-						"description": "Upload a mammogram image to predict breast cancer"
-					},
-					"response": []
-				},
-				{
-					"name": "Brain Tumor Detection",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "file",
-									"description": "Brain MRI image",
-									"type": "file",
-									"src": "/C:/Users/Youssef Ramadan/Desktop/2.jpg"
-								}
-							]
-						},
-						"url": {
-							"raw": "https://brain-cancer-api-efdfd2c65bbe.herokuapp.com/predict",
-							"protocol": "https",
-							"host": [
-								"brain-cancer-api-efdfd2c65bbe",
-								"herokuapp",
-								"com"
-							],
-							"path": [
-								"predict"
-							]
-						},
-						"description": "Upload a brain MRI image to detect brain tumors"
-					},
-					"response": []
-				},
-				{
-					"name": "Gene Classification",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{JWT}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"gene\": \"BRCA1\",\n  \"variation\": \"V600E\",\n  \"text\": \"Patient genetic analysis report\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://gene-classify-api-557a7e2b2275.herokuapp.com/predict",
-							"protocol": "https",
-							"host": [
-								"gene-classify-api-557a7e2b2275",
-								"herokuapp",
-								"com"
-							],
-							"path": [
-								"predict"
-							]
-						},
-						"description": "Classify gene variations to predict their clinical significance"
-					},
-					"response": []
-				}
-			],
-			"description": "Endpoints related to medical diagnosis and predictions"
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	],
-	"variable": [
-		{
-			"key": "URL",
-			"value": "http://localhost:5000",
-			"type": "string"
-		}
-	]
+  "info": {
+    "_postman_id": "1a62119a-ae39-4790-973e-982612ba0945",
+    "name": "care-insight-api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45047710",
+    "_collection_link": "https://care-insight-api.postman.co/workspace/Team-Workspace~6d205971-743e-410b-8a91-e1ae8098bbcd/collection/45047710-1a62119a-ae39-4790-973e-982612ba0945?action=share&source=collection_link&creator=45047710"
+  },
+  "item": [
+    {
+      "name": "Admin Management",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"admin\",\n  \"email\": \"admin@gmail.com\",\n  \"phoneNumber\": \"+201234567892\",\n  \"gender\": \"male\",\n  \"password\": \"password123\",\n  \"role\": \"admin\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/users",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users"]
+            },
+            "description": "Create a new user (Admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/users",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users"]
+            },
+            "description": "Get all users (Admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/users/6828dd9d501ccc64b229effb",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "6828dd9d501ccc64b229effb"]
+            },
+            "description": "Get specific user by ID (Admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Updated User Name\",\n  \"phoneNumber\": \"+201198765432\",\n  \"gender\": \"male\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/users/:id",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "USER_ID_HERE",
+                  "description": "User ID"
+                }
+              ]
+            },
+            "description": "Update a user (Admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/users/682c6cfc624d99572193a4d3",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "682c6cfc624d99572193a4d3"]
+            },
+            "description": "Delete a user (Admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Change User Password",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"newpassword456\",\n  \"passwordConfirm\": \"newpassword456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/users/changePassword/:id",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "changePassword", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "USER_ID_HERE",
+                  "description": "User ID"
+                }
+              ]
+            },
+            "description": "Change a user's password (Admin only)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Registration",
+          "item": [
+            {
+              "name": "Register Patient",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fullName\": \"Ahmed Mohamed\",\n  \"email\": \"rmdanyoussef01@gmail.com\",\n  \"phoneNumber\": \"+201234567890\",\n  \"gender\": \"male\",\n  \"password\": \"password123\",\n  \"age\": 30,\n  \"height\": 175,\n  \"weight\": 75,\n  \"bloodType\": \"O+\",\n  \"medicalCondition\": \"Healthy\",\n  \"chronicDiseases\": [\"Hypertension\", \"Diabetes\"],\n  \"currentMedications\": [\"Insulin\", \"Captopril\"]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/api/v1/auth/register",
+                  "host": ["{{URL}}"],
+                  "path": ["api", "v1", "auth", "register"]
+                },
+                "description": "Register a new patient"
+              },
+              "response": []
+            },
+            {
+              "name": "Register Doctor",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"fullName\": \"Dr. ahmed\",\n  \"email\": \"rmdanyoussef2@gmail.com\",\n  \"phoneNumber\": \"+201234567891\",\n  \"gender\": \"male\",\n  \"password\": \"doctor123\",\n  \"specialtyId\": \"6828acf95556d140637c6689\",\n  \"clinicLocation\": \"123 Health St, Cairo\",\n  \"certifications\": [\"Board Certified\", \"PhD\"],\n  \"workingHours\": [\n    { \"day\": \"Monday\", \"from\": \"09:00\", \"to\": \"17:00\" },\n    { \"day\": \"Wednesday\", \"from\": \"10:00\", \"to\": \"18:00\" }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/api/v1/auth/registerDoctor",
+                  "host": ["{{URL}}"],
+                  "path": ["api", "v1", "auth", "registerDoctor"]
+                },
+                "description": "Register a new doctor"
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Login/Logout",
+          "item": [
+            {
+              "name": "Login",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "pm.environment.set(\"JWT\",pm.response.json().token)"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "// admin\n// {\n//   \"email\": \"admin@gmail.com\",\n//   \"password\": \"password123\"\n// }\n\n// doctor\n{\n  \"email\": \"rmdanyoussef2@gmail.com\",\n  \"password\": \"newpassword123\"\n}\n\n// patient\n// {\n//   \"email\": \"ahmed@example.com\",\n//   \"password\": \"password123\"\n// }\n\n\n",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/api/v1/auth/login",
+                  "host": ["{{URL}}"],
+                  "path": ["api", "v1", "auth", "login"]
+                },
+                "description": "Login to the application"
+              },
+              "response": []
+            },
+            {
+              "name": "Logout",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{JWT}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{URL}}/api/v1/auth/logout",
+                  "host": ["{{URL}}"],
+                  "path": ["api", "v1", "auth", "logout"]
+                },
+                "description": "Logout from the application"
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Password Management",
+          "item": [
+            {
+              "name": "Forgot Password",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"rmdanyoussef2@gmail.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/api/v1/auth/forgot-password",
+                  "host": ["{{URL}}"],
+                  "path": ["api", "v1", "auth", "forgot-password"]
+                },
+                "description": "Request a password reset"
+              },
+              "response": []
+            },
+            {
+              "name": "Verify Reset Code",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"resetCode\": \"285117\"\n} ",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/api/v1/auth/verify-reset-code",
+                  "host": ["{{URL}}"],
+                  "path": ["api", "v1", "auth", "verify-reset-code"]
+                },
+                "description": "Verify reset code sent to email"
+              },
+              "response": []
+            },
+            {
+              "name": "Reset Password",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"rmdanyoussef2@gmail.com\",\n  \"newPassword\": \"newpassword123\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{URL}}/api/v1/auth/reset-password",
+                  "host": ["{{URL}}"],
+                  "path": ["api", "v1", "auth", "reset-password"]
+                },
+                "description": "Reset user password"
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Current User",
+      "item": [
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/users/me",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "me"]
+            },
+            "description": "Get the current user's profile"
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Profile Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "profileImage",
+                  "type": "file",
+                  "src": "/C:/Users/Youssef Ramadan/Pictures/Screenshots/Screenshot 2025-05-12 205206.png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/users/uploadImage",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "uploadImage"]
+            },
+            "description": "Upload a profile image"
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Medical Documents",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "medicalDocuments",
+                  "type": "file",
+                  "src": [
+                    "/C:/Users/Youssef Ramadan/Pictures/Screenshots/Screenshot (3).png",
+                    "/C:/Users/Youssef Ramadan/Pictures/Screenshots/Screenshot 2025-05-12 190444.png",
+                    "/C:/Users/Youssef Ramadan/Pictures/Screenshots/Screenshot 2025-05-12 190557.png",
+                    "/C:/Users/Youssef Ramadan/Pictures/Screenshots/Screenshot 2025-05-12 202451.png"
+                  ]
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/users/uploadMedicalDocuments",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "uploadMedicalDocuments"]
+            },
+            "description": "Upload multiple medical documents (up to 5 files). This feature is useful for patients to share their medical records with doctors."
+          },
+          "response": []
+        },
+        {
+          "name": "Update My Profile",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "// PATIENT UPDATE PROFILE EXAMPLE (uncomment to use)\n// {\n//   \"fullName\": \"Updated Patient Name\",\n//   \"phoneNumber\": \"+201098765432\",\n//   \"gender\": \"male\",\n//   \"age\": 32,\n//   \"height\": 178,\n//   \"weight\": 80,\n//   \"bloodType\": \"A+\",\n//   \"medicalCondition\": \"Healthy\",\n//   \"chronicDiseases\": [\"Asthma\"],\n//   \"currentMedications\": [\"Ventolin\"]\n// }\n\n// DOCTOR UPDATE PROFILE EXAMPLE (uncomment to use)\n{\n  \"fullName\": \"Dr. Updated Name\",\n  \"phoneNumber\": \"+201076543210\",\n  \"gender\": \"female\",\n  \"specialty\": \"6828acf95556d140637c6689\",\n  \"clinicLocation\": \"456 Medical St, Cairo\",\n  \"certifications\": [\"Board Certified\", \"Fellowship\"],\n  \"ProfessionalBio\": \"Experienced doctor with 10 years of practice\",\n  \"YearsOfExperience\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/users/me",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "me"]
+            },
+            "description": "Update current user's profile. Different fields are allowed based on user role (patient or doctor)."
+          },
+          "response": []
+        },
+        {
+          "name": "Change My Password",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"password123\",\n  \"password\": \"newpassword456\",\n  \"passwordConfirm\": \"newpassword456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/users/changePassword",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "changePassword"]
+            },
+            "description": "Change the current user's password"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Medical Specialties",
+      "item": [
+        {
+          "name": "Create Specialty",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Chest Cancer",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Focused on lung, pleural, and mediastinal cancers affecting the chest cavity.",
+                  "type": "text"
+                },
+                {
+                  "key": "imageCover",
+                  "type": "file",
+                  "src": "/C:/Users/Youssef Ramadan/Desktop/3.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/specialties",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "specialties"]
+            },
+            "description": "Create a new medical specialty (Admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Specialties",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/v1/specialties",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "specialties"]
+            },
+            "description": "Get all medical specialties"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Specialty By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/v1/specialties/:id",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "specialties", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "SPECIALTY_ID_HERE",
+                  "description": "Specialty ID"
+                }
+              ]
+            },
+            "description": "Get a specific medical specialty by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Specialty",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "Updated Specialty Name",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Updated specialty description",
+                  "type": "text"
+                },
+                {
+                  "key": "specialty",
+                  "type": "file",
+                  "src": "/path/to/your/new-specialty-image.jpg",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/specialties/:id",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "specialties", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "SPECIALTY_ID_HERE",
+                  "description": "Specialty ID"
+                }
+              ]
+            },
+            "description": "Update a medical specialty (Admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Specialty",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/specialties/:id",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "specialties", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "SPECIALTY_ID_HERE",
+                  "description": "Specialty ID"
+                }
+              ]
+            },
+            "description": "Delete a medical specialty (Admin only)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Doctor",
+      "item": [
+        {
+          "name": "Update Working Hours (Doctor Only)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workingHours\": [\n    {\n      \"day\": \"Monday\",\n      \"from\": \"09:00 AM\",\n      \"to\": \"05:00 PM\"\n    },\n    {\n      \"day\": \"Tuesday\",\n      \"from\": \"10:00 AM\",\n      \"to\": \"06:00 PM\"\n    },\n    {\n      \"day\": \"Wednesday\",\n      \"from\": \"09:00 AM\",\n      \"to\": \"05:00 PM\"\n    },\n    {\n      \"day\": \"Thursday\",\n      \"from\": \"\",\n      \"to\": \"\"\n    },\n    {\n      \"day\": \"Friday\",\n      \"from\": \"\",\n      \"to\": \"\"\n    },\n    {\n      \"day\": \"Saturday\",\n      \"from\": \"\",\n      \"to\": \"\"\n    },\n    {\n      \"day\": \"Sunday\",\n      \"from\": \"\",\n      \"to\": \"\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/users/updateWorkingHours",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "updateWorkingHours"]
+            },
+            "description": "Update working hours for a doctor. Only available to authenticated doctors. The availability field will be automatically updated based on which days have from and to values."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Patient",
+      "item": [
+        {
+          "name": "Get All Doctors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/v1/users/doctors?filterBy=Brain Cancer",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "doctors"],
+              "query": [
+                {
+                  "key": "filterBy",
+                  "value": "Brain Cancer"
+                }
+              ]
+            },
+            "description": "Get all doctors with their specialty information and profile details"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Diagnosis",
+      "item": [
+        {
+          "name": "Breast Cancer Prediction",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "description": "Breast cancer mammogram image",
+                  "type": "file",
+                  "src": "/P:/care-insigts models/Brain model/breast-model/test_images/benign/benign (1).png"
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://127.0.0.1:8000/predict",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "8000",
+              "path": ["predict"]
+            },
+            "description": "Upload a mammogram image to predict breast cancer"
+          },
+          "response": []
+        },
+        {
+          "name": "Brain Tumor Detection",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "description": "Brain MRI image",
+                  "type": "file",
+                  "src": "/C:/Users/Youssef Ramadan/Desktop/2.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "https://brain-cancer-api-efdfd2c65bbe.herokuapp.com/predict",
+              "protocol": "https",
+              "host": ["brain-cancer-api-efdfd2c65bbe", "herokuapp", "com"],
+              "path": ["predict"]
+            },
+            "description": "Upload a brain MRI image to detect brain tumors"
+          },
+          "response": []
+        },
+        {
+          "name": "Gene Classification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"gene\": \"BRCA1\",\n  \"variation\": \"V600E\",\n  \"text\": \"Patient genetic analysis report\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gene-classify-api-557a7e2b2275.herokuapp.com/predict",
+              "protocol": "https",
+              "host": ["gene-classify-api-557a7e2b2275", "herokuapp", "com"],
+              "path": ["predict"]
+            },
+            "description": "Classify gene variations to predict their clinical significance"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints related to medical diagnosis and predictions"
+    },
+    {
+      "name": "Appointments",
+      "item": [
+        {
+          "name": "Create Appointment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"doctorId\": \"6828dd9d501ccc64b229effb\",\n  \"date\": \"2024-03-25\",\n  \"time\": \"10:00 AM\",\n  \"reason\": \"Regular checkup\",\n  \"notes\": \"Patient has been experiencing mild headaches\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/appointments",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "appointments"]
+            },
+            "description": "Create a new appointment (Patient only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All My Appointments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/appointments/my-appointments",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "appointments", "my-appointments"]
+            },
+            "description": "Get all appointments for the current user (works for both doctors and patients)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Appointment By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/appointments/:id",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "appointments", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "APPOINTMENT_ID_HERE"
+                }
+              ]
+            },
+            "description": "Get specific appointment details"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Appointment",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2024-03-26\",\n  \"time\": \"11:00 AM\",\n  \"reason\": \"Follow-up checkup\",\n  \"notes\": \"Updated appointment notes\",\n  \"status\": \"rescheduled\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/appointments/:id",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "appointments", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "APPOINTMENT_ID_HERE"
+                }
+              ]
+            },
+            "description": "Update appointment details (can be done by both doctor and patient)"
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Appointment",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cancellationReason\": \"Emergency came up\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/appointments/:id/cancel",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "appointments", ":id", "cancel"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "APPOINTMENT_ID_HERE"
+                }
+              ]
+            },
+            "description": "Cancel an appointment (can be done by both doctor and patient)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Doctor's Available Slots",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/appointments/available-slots/:doctorId?date=2024-03-25",
+              "host": ["{{URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "appointments",
+                "available-slots",
+                ":doctorId"
+              ],
+              "query": [
+                {
+                  "key": "date",
+                  "value": "2024-03-25"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "doctorId",
+                  "value": "DOCTOR_ID_HERE"
+                }
+              ]
+            },
+            "description": "Get available appointment slots for a specific doctor on a given date"
+          },
+          "response": []
+        },
+        {
+          "name": "Confirm Appointment",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/appointments/:id/confirm",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "appointments", ":id", "confirm"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "APPOINTMENT_ID_HERE"
+                }
+              ]
+            },
+            "description": "Confirm an appointment (Doctor only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Complete Appointment",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"diagnosis\": \"Patient has mild tension headaches\",\n  \"prescription\": [\"Paracetamol 500mg\", \"Rest and hydration\"],\n  \"followUpNeeded\": true,\n  \"followUpDate\": \"2024-04-25\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/appointments/:id/complete",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "appointments", ":id", "complete"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "APPOINTMENT_ID_HERE"
+                }
+              ]
+            },
+            "description": "Mark appointment as completed and add medical notes (Doctor only)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for managing appointments between doctors and patients"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "URL",
+      "value": "http://localhost:5000",
+      "type": "string"
+    }
+  ]
 }
