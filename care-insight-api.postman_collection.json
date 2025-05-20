@@ -1076,6 +1076,125 @@
         }
       ],
       "description": "Endpoints for managing appointments between doctors and patients"
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Create Review (Patient Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"doctorId\": \"6828dd9d501ccc64b229effb\",\n  \"rating\": 5,\n  \"comment\": \"Excellent doctor, very professional and caring.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/reviews",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "reviews"]
+            },
+            "description": "Create a new review for a doctor (Patient only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Doctor Reviews (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/v1/reviews/doctor/:doctorId",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "reviews", "doctor", ":doctorId"],
+              "variable": [
+                {
+                  "key": "doctorId",
+                  "value": "6828dd9d501ccc64b229effb",
+                  "description": "Doctor ID"
+                }
+              ]
+            },
+            "description": "Get all reviews for a specific doctor"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Review (Patient Only)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rating\": 4,\n  \"comment\": \"Updated: Very good experience with the doctor.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/reviews/:reviewId",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "reviews", ":reviewId"],
+              "variable": [
+                {
+                  "key": "reviewId",
+                  "value": "REVIEW_ID_HERE",
+                  "description": "Review ID"
+                }
+              ]
+            },
+            "description": "Update an existing review (Only the patient who created the review can update it)"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Review (Patient Only)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/reviews/:reviewId",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "reviews", ":reviewId"],
+              "variable": [
+                {
+                  "key": "reviewId",
+                  "value": "REVIEW_ID_HERE",
+                  "description": "Review ID"
+                }
+              ]
+            },
+            "description": "Delete a review (Only the patient who created the review can delete it)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for managing doctor reviews by patients"
     }
   ],
   "event": [
