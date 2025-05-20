@@ -29,7 +29,7 @@ const otpTemplate = otpCode => `
             .header {
                 font-size: 24px;
                 font-weight: bold;
-                color: #3a97d4;
+                color: #333;
             }
             .message {
                 font-size: 16px;
@@ -39,7 +39,7 @@ const otpTemplate = otpCode => `
             .otp-code {
                 font-size: 22px;
                 font-weight: bold;
-                color: #3a97d4;
+                color: #007bff;
                 background: #f1f1f1;
                 padding: 10px 20px;
                 display: inline-block;
@@ -53,22 +53,22 @@ const otpTemplate = otpCode => `
                 color: #999;
             }
             .footer a {
-                color: #3a97d4;
+                color: #007bff;
                 text-decoration: none;
             }
         </style>
     </head>
     <body>
         <div class="container">
-            <img src="${process.env.BASE_URL}/images/logo.png" alt="Care Insight Logo" class="logo">
-            <div class="header">Care Insight</div>
+            <img src="https://yourcompany.com/logo.png" alt="Company Logo" class="logo">
+            <div class="header">One-Time Password (OTP)</div>
             <div class="message">
-                Use the OTP below to reset your password. This code is valid for the next 10 minutes. If you didn't request a password reset, please ignore this email.
+                Use the OTP below to verify your identity. This code is valid for the next 10 minutes.
             </div>
             <div class="otp-code">${otpCode}</div>
             <div class="footer">
-                <p>If you did not request this OTP, please <a href="${process.env.FRONTEND_URL}/contact">contact support</a> immediately.</p>
-                <p>Best regards,<br>The Care Insight Team</p>
+                <p>If you did not request this OTP, please <a href="#">contact support</a> immediately.</p>
+                <p>Best regards,<br>The [Your Company] Team</p>
             </div>
         </div>
     </body>

@@ -33,7 +33,7 @@ const emailTemplate = token => {
             .header {
                 font-size: 24px;
                 font-weight: bold;
-                color: #3a97d4;
+                color: #333;
             }
             .message {
                 font-size: 16px;
@@ -45,7 +45,7 @@ const emailTemplate = token => {
                 padding: 12px 20px;
                 font-size: 18px;
                 color: #ffffff;
-                background-color: #3a97d4;
+                background-color: #007bff;
                 text-decoration: none;
                 border-radius: 5px;
                 margin-top: 20px;
@@ -56,21 +56,22 @@ const emailTemplate = token => {
                 color: #999;
             }
             .footer a {
-                color: #3a97d4;
+                color: #007bff;
                 text-decoration: none;
             }
         </style>
     </head>
     <body>
         <div class="container">
-            <div class="header">Care Insight</div>
+            <img src="https://yourcompany.com/logo.png" alt="Company Logo" class="logo">
+            <div class="header">Verify Your Email Address</div>
             <div class="message">
-                Thank you for signing up with Care Insight, your trusted healthcare platform! Please confirm your email address by clicking the button below.
+                Thank you for signing up! Please confirm your email address by clicking the button below.
             </div>
-            <a href="${process.env.BASE_URL}/api/users/verify/${token}" class="verify-button">Verify Email</a>
+            <a href="http://localhost:8000/api/v1/auth/verify/${token}" class="verify-button">Verify Email</a>
             <div class="footer">
-                <p>If you did not create an account, please ignore this email or <a href="${process.env.FRONTEND_URL}">contact support</a>.</p>
-                <p>Best regards,<br>The Care Insight Team</p>
+                <p>If you did not create an account, please ignore this email or <a href="#">contact support</a>.</p>
+                <p>Best regards,<br>The [Your Company] Team</p>
             </div>
         </div>
     </body>
