@@ -29,7 +29,7 @@ const brainCancer = asyncHandler(async (req, res) => {
 
   // Call the brain tumor prediction API
   const response = await axios.post(
-    'https://brain-model.onrender.com/predict',
+    'https://brain-cancer-api-efdfd2c65bbe.herokuapp.com/predict',
     {
       image_url: imageUrl,
     }
