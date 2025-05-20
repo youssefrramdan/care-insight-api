@@ -12,6 +12,7 @@ import specialtyRouter from './routes/specialty.routes.js';
 import userRouter from './routes/user.routes.js';
 import diagnosisRouter from './routes/diagnosis.routes.js';
 import appointmentRouter from './routes/appointment.routes.js';
+import reviewRouter from './routes/review.routes.js';
 
 dotenv.config({ path: './config/config.env' });
 
@@ -50,6 +51,7 @@ app.use('/api/v1/specialties', specialtyRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/diagnosis', diagnosisRouter);
 app.use('/api/v1/appointments', appointmentRouter);
+app.use('/api/v1/reviews', reviewRouter);
 app.get('/ping', (req, res) => {
   res.status(200).send('pong');
 });

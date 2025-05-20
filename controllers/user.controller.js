@@ -4,6 +4,7 @@ import sendEmail from '../utils/sendEmail.js';
 import emailTemplate from '../utils/emailTemplate.js';
 import generateToken from '../utils/Token.js';
 import ApiError from '../utils/apiError.js';
+import Review from '../models/reviewModel.js';
 
 /**
  * @middleware
@@ -51,18 +52,25 @@ const createUser = asyncHandler(async (req, res, next) => {
  * @access  Private
  */
 const getUser = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.params.id).populate({
-    path: 'specialty',
-    select: 'name description -_id',
-  });
+  const { id } = req.params;
+  const user = await User.findById(id)
+    .populate('specialty', 'name description')
+    .populate({
+      path: 'reviews',
+      populate: {
+        path: 'patient',
+        select: 'fullName profileImage',
+      },
+      options: { sort: { createdAt: -1 } },
+    });
 
   if (!user) {
-    return next(new ApiError('User not found', 404));
+    return next(new ApiError(`There isn't a user for this ${id}`, 404));
   }
 
   res.status(200).json({
     message: 'success',
-    user,
+    data: user,
   });
 });
 
@@ -125,22 +133,44 @@ const deleteUser = asyncHandler(async (req, res, next) => {
  * @access  Private
  */
 const getMe = asyncHandler(async (req, res, next) => {
-  let user = {};
+  let user;
   if (req.user.role === 'doctor') {
     user = await User.findById(req.user._id)
-      .populate('specialty', 'name description -_id')
+      .populate('specialty', 'name description')
+      .populate({
+        path: 'reviews',
+        populate: {
+          path: 'patient',
+          select: 'fullName profileImage',
+        },
+        options: { sort: { createdAt: -1 } },
+      })
       .select(
-        'fullName email phoneNumber gender specialty workPlace clinicLocation certifications YearsOfExperience ProfessionalBio workingHours availability medicalDocuments'
+        'fullName email phoneNumber gender specialty workPlace clinicLocation certifications YearsOfExperience ProfessionalBio workingHours availability medicalDocuments averageRating numberOfReviews reviews'
       );
+
+    if (!user) {
+      return next(new ApiError('User not found', 404));
+    }
+
+    res.status(200).json({
+      message: 'success',
+      data: user,
+    });
   } else if (req.user.role === 'patient') {
     user = await User.findById(req.user._id).select(
-      '-__v -createdAt -updatedAt -certifications -availability -password -workingHours -isVerified'
+      '-certifications -availability -reviews -averageRating -numberOfReviews -isVerified -workingHours -password'
     );
+
+    if (!user) {
+      return next(new ApiError('User not found', 404));
+    }
+
+    res.status(200).json({
+      message: 'success',
+      data: user,
+    });
   }
-  res.status(200).json({
-    message: 'success',
-    data: user,
-  });
 });
 
 /**
@@ -398,7 +428,7 @@ const getAllDoctors = asyncHandler(async (req, res, next) => {
       select: 'name description',
     })
     .select(
-      'fullName email phoneNumber gender specialty workPlace clinicLocation certifications YearsOfExperience ProfessionalBio workingHours availability'
+      'fullName email phoneNumber gender specialty workPlace clinicLocation certifications YearsOfExperience ProfessionalBio workingHours availability averageRating numberOfReviews'
     );
 
   res.status(200).json({

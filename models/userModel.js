@@ -29,7 +29,10 @@ const userSchema = new mongoose.Schema(
       required: [true, 'Full name is required'],
       trim: true,
     },
-    profileImage: String,
+    profileImage: {
+      type: String,
+      default: 'https://care-insight-hub.lovable.app/placeholder.svg',
+    },
     email: {
       type: String,
       required: [true, 'Email is required'],
@@ -102,6 +105,23 @@ const userSchema = new mongoose.Schema(
     availability: {
       type: [String],
       default: [],
+    },
+    // Review-related fields (Doctor-specific)
+    reviews: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review',
+      },
+    ],
+    averageRating: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 5,
+    },
+    numberOfReviews: {
+      type: Number,
+      default: 0,
     },
     password: {
       type: String,
