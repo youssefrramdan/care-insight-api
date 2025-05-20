@@ -663,6 +663,27 @@
             "description": "Delete a medical specialty (Admin only)"
           },
           "response": []
+        },
+        {
+          "name": "Get Doctors By Specialty (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/v1/specialties/:specialtyId/users",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "specialties", ":specialtyId", "users"],
+              "variable": [
+                {
+                  "key": "specialtyId",
+                  "value": "6828acf95556d140637c6689",
+                  "description": "Specialty ID"
+                }
+              ]
+            },
+            "description": "Get all doctors in a specific medical specialty"
+          },
+          "response": []
         }
       ]
     },
