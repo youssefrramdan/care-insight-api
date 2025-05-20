@@ -11,7 +11,7 @@
       "name": "Admin Management",
       "item": [
         {
-          "name": "Create User",
+          "name": "Create User (Admin Only)",
           "request": {
             "method": "POST",
             "header": [
@@ -40,7 +40,7 @@
           "response": []
         },
         {
-          "name": "Get All Users",
+          "name": "Get All Users (Admin Only)",
           "request": {
             "method": "GET",
             "header": [
@@ -60,7 +60,7 @@
           "response": []
         },
         {
-          "name": "Get User By ID",
+          "name": "Get User By ID (Admin Only)",
           "request": {
             "method": "GET",
             "header": [
@@ -80,7 +80,7 @@
           "response": []
         },
         {
-          "name": "Update User",
+          "name": "Update User (Admin Only)",
           "request": {
             "method": "PUT",
             "header": [
@@ -116,7 +116,7 @@
           "response": []
         },
         {
-          "name": "Delete User",
+          "name": "Delete User (Admin Only)",
           "request": {
             "method": "DELETE",
             "header": [
@@ -136,7 +136,7 @@
           "response": []
         },
         {
-          "name": "Change User Password",
+          "name": "Change User Password (Admin Only)",
           "request": {
             "method": "PATCH",
             "header": [
@@ -180,7 +180,7 @@
           "name": "Registration",
           "item": [
             {
-              "name": "Register Patient",
+              "name": "Register Patient (Public)",
               "request": {
                 "method": "POST",
                 "header": [],
@@ -203,7 +203,7 @@
               "response": []
             },
             {
-              "name": "Register Doctor",
+              "name": "Register Doctor (Public)",
               "request": {
                 "method": "POST",
                 "header": [],
@@ -231,7 +231,7 @@
           "name": "Login/Logout",
           "item": [
             {
-              "name": "Login",
+              "name": "Login (Public)",
               "event": [
                 {
                   "listen": "test",
@@ -266,7 +266,7 @@
               "response": []
             },
             {
-              "name": "Logout",
+              "name": "Logout (All Users)",
               "request": {
                 "method": "POST",
                 "header": [
@@ -291,7 +291,7 @@
           "name": "Password Management",
           "item": [
             {
-              "name": "Forgot Password",
+              "name": "Forgot Password (Public)",
               "request": {
                 "method": "POST",
                 "header": [],
@@ -314,7 +314,7 @@
               "response": []
             },
             {
-              "name": "Verify Reset Code",
+              "name": "Verify Reset Code (Public)",
               "request": {
                 "method": "POST",
                 "header": [],
@@ -337,7 +337,7 @@
               "response": []
             },
             {
-              "name": "Reset Password",
+              "name": "Reset Password (Public)",
               "request": {
                 "method": "POST",
                 "header": [],
@@ -367,7 +367,7 @@
       "name": "Current User",
       "item": [
         {
-          "name": "Get My Profile",
+          "name": "Get My Profile (All Users)",
           "request": {
             "method": "GET",
             "header": [
@@ -387,7 +387,7 @@
           "response": []
         },
         {
-          "name": "Upload Profile Image",
+          "name": "Upload Profile Image (All Users)",
           "request": {
             "method": "POST",
             "header": [
@@ -417,7 +417,7 @@
           "response": []
         },
         {
-          "name": "Upload Medical Documents",
+          "name": "Upload Medical Documents (Patient Only)",
           "request": {
             "method": "POST",
             "header": [
@@ -452,7 +452,7 @@
           "response": []
         },
         {
-          "name": "Update My Profile",
+          "name": "Update My Profile (All Users)",
           "request": {
             "method": "PATCH",
             "header": [
@@ -481,7 +481,7 @@
           "response": []
         },
         {
-          "name": "Change My Password",
+          "name": "Change My Password (All Users)",
           "request": {
             "method": "PATCH",
             "header": [
@@ -515,7 +515,7 @@
       "name": "Medical Specialties",
       "item": [
         {
-          "name": "Create Specialty",
+          "name": "Create Specialty (Admin Only)",
           "request": {
             "method": "POST",
             "header": [
@@ -555,7 +555,7 @@
           "response": []
         },
         {
-          "name": "Get All Specialties",
+          "name": "Get All Specialties (Public)",
           "request": {
             "method": "GET",
             "header": [],
@@ -569,7 +569,7 @@
           "response": []
         },
         {
-          "name": "Get Specialty By ID",
+          "name": "Get Specialty By ID (Public)",
           "request": {
             "method": "GET",
             "header": [],
@@ -590,7 +590,7 @@
           "response": []
         },
         {
-          "name": "Update Specialty",
+          "name": "Update Specialty (Admin Only)",
           "request": {
             "method": "PUT",
             "header": [
@@ -638,7 +638,7 @@
           "response": []
         },
         {
-          "name": "Delete Specialty",
+          "name": "Delete Specialty (Admin Only)",
           "request": {
             "method": "DELETE",
             "header": [
@@ -704,7 +704,7 @@
       "name": "Patient",
       "item": [
         {
-          "name": "Get All Doctors",
+          "name": "Get All Doctors (Patient & Public)",
           "request": {
             "method": "GET",
             "header": [],
@@ -729,7 +729,7 @@
       "name": "Diagnosis",
       "item": [
         {
-          "name": "Breast Cancer Prediction",
+          "name": "Breast Cancer Prediction (Doctor & Patient)",
           "request": {
             "method": "POST",
             "header": [
@@ -762,7 +762,7 @@
           "response": []
         },
         {
-          "name": "Brain Tumor Detection",
+          "name": "Brain Tumor Detection (Doctor & Patient)",
           "request": {
             "method": "POST",
             "header": [
@@ -794,7 +794,7 @@
           "response": []
         },
         {
-          "name": "Gene Classification",
+          "name": "Gene Classification (Doctor & Patient)",
           "request": {
             "method": "POST",
             "header": [
@@ -859,7 +859,7 @@
           "response": []
         },
         {
-          "name": "Get All My Appointments",
+          "name": "Get All My Appointments (Doctor & Patient)",
           "request": {
             "method": "GET",
             "header": [
@@ -886,7 +886,7 @@
           "response": []
         },
         {
-          "name": "Get Appointment By ID",
+          "name": "Get Appointment By ID (Doctor & Patient)",
           "request": {
             "method": "GET",
             "header": [
@@ -912,7 +912,7 @@
           "response": []
         },
         {
-          "name": "Get Doctor's Available Slots",
+          "name": "Get Doctor's Available Slots (All Users)",
           "request": {
             "method": "GET",
             "header": [
@@ -951,7 +951,7 @@
           "response": []
         },
         {
-          "name": "Cancel Appointment",
+          "name": "Cancel Appointment (Doctor & Patient)",
           "request": {
             "method": "PATCH",
             "header": [
@@ -1038,7 +1038,7 @@
           "response": []
         },
         {
-          "name": "Upload Appointment Files",
+          "name": "Upload Appointment Files (Doctor & Patient)",
           "request": {
             "method": "POST",
             "header": [
