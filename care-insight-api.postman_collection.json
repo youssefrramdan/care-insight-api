@@ -830,7 +830,7 @@
       "name": "Appointments",
       "item": [
         {
-          "name": "Create Appointment",
+          "name": "Create Appointment (Patient Only)",
           "request": {
             "method": "POST",
             "header": [
@@ -842,7 +842,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"doctorId\": \"6828dd9d501ccc64b229effb\",\n  \"date\": \"2024-03-25\",\n  \"time\": \"10:00 AM\",\n  \"reason\": \"Regular checkup\",\n  \"notes\": \"Patient has been experiencing mild headaches\"\n}",
+              "raw": "{\n  \"doctor\": \"6828dd9d501ccc64b229effb\",\n  \"appointmentDate\": \"2024-03-25T10:00:00.000Z\",\n  \"reasonForVisit\": \"Regular checkup\",\n  \"notes\": \"Patient has been experiencing mild headaches\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -870,11 +870,18 @@
               }
             ],
             "url": {
-              "raw": "{{URL}}/api/v1/appointments/my-appointments",
+              "raw": "{{URL}}/api/v1/appointments?type=upcoming",
               "host": ["{{URL}}"],
-              "path": ["api", "v1", "appointments", "my-appointments"]
+              "path": ["api", "v1", "appointments"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "upcoming",
+                  "description": "Filter by 'upcoming' or 'past' appointments"
+                }
+              ]
             },
-            "description": "Get all appointments for the current user (works for both doctors and patients)"
+            "description": "Get all appointments for the current user (works for both doctors and patients). Use query parameter 'type' with values 'upcoming' or 'past' to filter appointments."
           },
           "response": []
         },
@@ -905,76 +912,6 @@
           "response": []
         },
         {
-          "name": "Update Appointment",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{JWT}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"date\": \"2024-03-26\",\n  \"time\": \"11:00 AM\",\n  \"reason\": \"Follow-up checkup\",\n  \"notes\": \"Updated appointment notes\",\n  \"status\": \"rescheduled\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{URL}}/api/v1/appointments/:id",
-              "host": ["{{URL}}"],
-              "path": ["api", "v1", "appointments", ":id"],
-              "variable": [
-                {
-                  "key": "id",
-                  "value": "APPOINTMENT_ID_HERE"
-                }
-              ]
-            },
-            "description": "Update appointment details (can be done by both doctor and patient)"
-          },
-          "response": []
-        },
-        {
-          "name": "Cancel Appointment",
-          "request": {
-            "method": "PATCH",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{JWT}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"cancellationReason\": \"Emergency came up\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{URL}}/api/v1/appointments/:id/cancel",
-              "host": ["{{URL}}"],
-              "path": ["api", "v1", "appointments", ":id", "cancel"],
-              "variable": [
-                {
-                  "key": "id",
-                  "value": "APPOINTMENT_ID_HERE"
-                }
-              ]
-            },
-            "description": "Cancel an appointment (can be done by both doctor and patient)"
-          },
-          "response": []
-        },
-        {
           "name": "Get Doctor's Available Slots",
           "request": {
             "method": "GET",
@@ -998,7 +935,8 @@
               "query": [
                 {
                   "key": "date",
-                  "value": "2024-03-25"
+                  "value": "2024-03-25",
+                  "description": "Date to check availability (YYYY-MM-DD)"
                 }
               ],
               "variable": [
@@ -1013,7 +951,33 @@
           "response": []
         },
         {
-          "name": "Confirm Appointment",
+          "name": "Cancel Appointment",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/appointments/:id/cancel",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "appointments", ":id", "cancel"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "APPOINTMENT_ID_HERE"
+                }
+              ]
+            },
+            "description": "Cancel an appointment (can be done by both doctor and patient)"
+          },
+          "response": []
+        },
+        {
+          "name": "Confirm Appointment (Doctor Only)",
           "request": {
             "method": "PATCH",
             "header": [
@@ -1039,7 +1003,7 @@
           "response": []
         },
         {
-          "name": "Complete Appointment",
+          "name": "Complete Appointment (Doctor Only)",
           "request": {
             "method": "PATCH",
             "header": [
@@ -1070,6 +1034,43 @@
               ]
             },
             "description": "Mark appointment as completed and add medical notes (Doctor only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Appointment Files",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "files",
+                  "type": "file",
+                  "src": [],
+                  "description": "Upload up to 5 files"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/appointments/:appointmentId/upload",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "appointments", ":appointmentId", "upload"],
+              "variable": [
+                {
+                  "key": "appointmentId",
+                  "value": "APPOINTMENT_ID_HERE"
+                }
+              ]
+            },
+            "description": "Upload files for an appointment (up to 5 files). Both doctors and patients can upload files."
           },
           "response": []
         }

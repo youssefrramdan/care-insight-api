@@ -144,44 +144,6 @@ export const getAppointmentById = asyncHandler(async (req, res, next) => {
   });
 });
 
-// Update appointment
-export const updateAppointment = asyncHandler(async (req, res, next) => {
-  const appointment = await Appointment.findById(req.params.id);
-
-  if (!appointment) {
-    return next(new ApiError('No appointment found with that ID', 404));
-  }
-
-  // Check if user has permission to update this appointment
-  if (
-    req.user.role !== 'admin' &&
-    appointment.patient.toString() !== req.user._id.toString() &&
-    appointment.doctor.toString() !== req.user._id.toString()
-  ) {
-    return next(
-      new ApiError('You do not have permission to update this appointment', 403)
-    );
-  }
-
-  // If updating date, validate it's in the future
-  if (
-    req.body.appointmentDate &&
-    new Date(req.body.appointmentDate) < new Date()
-  ) {
-    return next(new ApiError('Appointment date must be in the future', 400));
-  }
-
-  Object.assign(appointment, req.body);
-  await appointment.save();
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      appointment,
-    },
-  });
-});
-
 // Cancel appointment
 export const cancelAppointment = asyncHandler(async (req, res, next) => {
   const appointment = await Appointment.findById(req.params.id);
@@ -192,8 +154,8 @@ export const cancelAppointment = asyncHandler(async (req, res, next) => {
 
   // Check if user has permission to cancel this appointment
   if (
-    req.user.role !== 'admin' &&
-    appointment.patient.toString() !== req.user._id.toString() ||
+    (req.user.role !== 'admin' &&
+      appointment.patient.toString() !== req.user._id.toString()) ||
     appointment.doctor.toString() !== req.user._id.toString()
   ) {
     return next(
@@ -237,6 +199,92 @@ export const getDoctorAvailability = asyncHandler(async (req, res, next) => {
     status: 'success',
     data: {
       bookedSlots: bookedAppointments.map(app => app.appointmentDate),
+    },
+  });
+});
+
+// Confirm appointment (Doctor only)
+export const confirmAppointment = asyncHandler(async (req, res, next) => {
+  const appointment = await Appointment.findById(req.params.id);
+
+  if (!appointment) {
+    return next(new ApiError('No appointment found with that ID', 404));
+  }
+
+  // Check if user is the doctor for this appointment
+  if (
+    req.user.role !== 'doctor' ||
+    appointment.doctor.toString() !== req.user._id.toString()
+  ) {
+    return next(
+      new ApiError('Only the assigned doctor can confirm this appointment', 403)
+    );
+  }
+
+  // Check if appointment is already confirmed or completed
+  if (appointment.status !== 'pending') {
+    return next(
+      new ApiError(`Appointment is already ${appointment.status}`, 400)
+    );
+  }
+
+  appointment.status = 'confirmed';
+  await appointment.save();
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      appointment,
+    },
+  });
+});
+
+// Complete appointment and add medical notes (Doctor only)
+export const completeAppointment = asyncHandler(async (req, res, next) => {
+  const appointment = await Appointment.findById(req.params.id);
+
+  if (!appointment) {
+    return next(new ApiError('No appointment found with that ID', 404));
+  }
+
+  // Check if user is the doctor for this appointment
+  if (
+    req.user.role !== 'doctor' ||
+    appointment.doctor.toString() !== req.user._id.toString()
+  ) {
+    return next(
+      new ApiError(
+        'Only the assigned doctor can complete this appointment',
+        403
+      )
+    );
+  }
+
+  // Check if appointment is confirmed
+  if (appointment.status !== 'confirmed') {
+    return next(
+      new ApiError('Only confirmed appointments can be completed', 400)
+    );
+  }
+
+  // Update appointment with medical notes and completion details
+  const { diagnosis, prescription, followUpNeeded, followUpDate } = req.body;
+
+  appointment.status = 'completed';
+  appointment.medicalNotes = {
+    diagnosis,
+    prescription,
+    followUpNeeded,
+    followUpDate: followUpNeeded ? followUpDate : undefined,
+    completedAt: new Date(),
+  };
+
+  await appointment.save();
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      appointment,
     },
   });
 });
