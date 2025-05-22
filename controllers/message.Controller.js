@@ -116,17 +116,24 @@ const getUsersForSidebar = asyncHandler(async (req, res, next) => {
 });
 
 const sendMessage = asyncHandler(async(req, res, next) => {
-    const { text, image } = req.body;
+    const { text } = req.body;
+    const image=req.file?.path
     const { id: receiverId } = req.params;
-   
+    
     const senderId = req.user._id;
-    req.body.receiverId = receiverId;
-    req.body.senderId = senderId;
+    // req.body.receiverId = receiverId;
+    // req.body.senderId = senderId;
 
     const sender = await User.findById(senderId).select('firstname lastname profileImage');
     const receiver = await User.findById(receiverId).select('firstname lastname fcmToken');
 
-    const message = await messageModel.create(req.body);
+    const message = await messageModel.create({
+      receiverId,
+      senderId,
+      text:req.body.text,
+      image:req.file?.path,
+      
+    });
 
     if(!message) {
         return next(new AppError("There is an error creating message", 400));
@@ -146,4 +153,10 @@ const getMessage = asyncHandler(async(req, res, next) => {
     res.status(200).json(messages);
 });
 
-export { getUsersForSidebar, sendMessage, getMessage }; 
+export { getUsersForSidebar, sendMessage, getMessage };
+
+
+
+
+
+
