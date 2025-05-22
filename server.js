@@ -1,12 +1,16 @@
 import app from './app.js';
 import databaseConnection from './config/dbConnection.js';
 
+// Connect to database
 databaseConnection();
+
 const PORT = process.env.PORT || 8000;
 
+// Start server
 const server = app.listen(PORT, () => {
-  console.log(`server is running ${PORT} ....`);
+  console.log(`Server is running on port ${PORT}`);
 });
+
 
 // Handle errors that occur within promises but weren't caught
 process.on('unhandledRejection', err => {
@@ -18,9 +22,6 @@ process.on('unhandledRejection', err => {
 });
 
 // Handle errors that happen synchronously outside Express
-// For example, if an error occurs before Express starts,
-//  it won't be caught by Express error handling middleware.
-
 process.on('uncaughtException', err => {
   console.error(`Uncaught Exception: ${err.name} | ${err.message}`);
   process.exit(1);

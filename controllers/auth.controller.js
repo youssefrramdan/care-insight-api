@@ -121,6 +121,8 @@ const login = asyncHandler(async (req, res, next) => {
     return next(new ApiError('Incorrect email or password', 401));
   }
   const token = generateToken(user._id);
+  
+  // Return user data with socket connection info
   res.status(200).json({
     message: 'success',
     user: {
@@ -130,6 +132,9 @@ const login = asyncHandler(async (req, res, next) => {
       name: user.name,
     },
     token,
+    socketInfo: {
+      userId: user._id.toString(), // This will be used to connect to socket
+    }
   });
 });
 
