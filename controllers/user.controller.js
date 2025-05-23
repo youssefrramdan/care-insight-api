@@ -133,44 +133,16 @@ const deleteUser = asyncHandler(async (req, res, next) => {
  * @access  Private
  */
 const getMe = asyncHandler(async (req, res, next) => {
-  let user;
-  if (req.user.role === 'doctor') {
-    user = await User.findById(req.user._id)
-      .populate('specialty', 'name description')
-      .populate({
-        path: 'reviews',
-        populate: {
-          path: 'patient',
-          select: 'fullName profileImage',
-        },
-        options: { sort: { createdAt: -1 } },
-      })
-      .select(
-        'fullName email phoneNumber gender specialty workPlace clinicLocation certifications YearsOfExperience ProfessionalBio workingHours availability medicalDocuments averageRating numberOfReviews reviews'
-      );
+  const user = await User.findById(req.user._id);
 
-    if (!user) {
-      return next(new ApiError('User not found', 404));
-    }
-
-    res.status(200).json({
-      message: 'success',
-      data: user,
-    });
-  } else if (req.user.role === 'patient') {
-    user = await User.findById(req.user._id).select(
-      '-certifications -availability -reviews -averageRating -numberOfReviews -isVerified -workingHours -password'
-    );
-
-    if (!user) {
-      return next(new ApiError('User not found', 404));
-    }
-
-    res.status(200).json({
-      message: 'success',
-      data: user,
-    });
+  if (!user) {
+    return next(new ApiError('User not found', 404));
   }
+
+  res.status(200).json({
+    message: 'success',
+    data: user,
+  });
 });
 
 /**
