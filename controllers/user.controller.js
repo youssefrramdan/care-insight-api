@@ -147,10 +147,16 @@ const getMe = asyncHandler(async (req, res, next) => {
   if (!user) {
     return next(new ApiError('User not found', 404));
   }
+  // Transform the response
+  const userObj = user.toObject();
+  if (userObj.specialty) {
+    userObj.specialty = userObj.specialty.name;
+  }
+
 
   res.status(200).json({
     message: 'success',
-    data: user,
+    data: userObj,
   });
 });
 
