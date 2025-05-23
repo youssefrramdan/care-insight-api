@@ -326,7 +326,7 @@ const uploadMedicalDocuments = asyncHandler(async (req, res, next) => {
     fileUrl: file.path,
   }));
 
-  // Get the user and update the MedicalDocuments array
+  // Get the user and update the medicalDocuments array
   const user = await User.findById(req.user._id);
 
   if (!user) {
@@ -338,7 +338,7 @@ const uploadMedicalDocuments = asyncHandler(async (req, res, next) => {
     user.medicalDocuments = [];
   }
 
-  user.modifiedPathsedicalDocuments.push(...documents);
+  user.medicalDocuments.push(...documents);
   await user.save();
 
   res.status(200).json({
