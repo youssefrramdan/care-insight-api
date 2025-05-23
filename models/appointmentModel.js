@@ -19,13 +19,13 @@ const appointmentSchema = new mongoose.Schema(
     reasonForVisit: {
       type: String,
       required: true,
-      enum: [
-        'Initial Consultation',
-        'Follow-up Appointment',
-        'Review Test Results',
-        'Discuss Treatment Plan',
-        'Other',
-      ],
+    //   enum: [
+    //     'Initial Consultation',
+    //     'Follow-up Appointment',
+    //     'Review Test Results',
+    //     'Discuss Treatment Plan',
+    //     'Other',
+    //   ],
     },
     notes: {
       type: String,
