@@ -54,7 +54,10 @@ const createUser = asyncHandler(async (req, res, next) => {
 const getUser = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const user = await User.findById(id)
-    .populate('specialty', 'name description')
+    .populate({
+      path: 'specialty',
+      select: 'name description',
+    })
     .populate({
       path: 'reviews',
       populate: {
@@ -68,9 +71,15 @@ const getUser = asyncHandler(async (req, res, next) => {
     return next(new ApiError(`There isn't a user for this ${id}`, 404));
   }
 
+  // Transform the response
+  const userObj = user.toObject();
+  if (userObj.specialty) {
+    userObj.specialty = userObj.specialty.name;
+  }
+
   res.status(200).json({
     message: 'success',
-    data: user,
+    data: userObj,
   });
 });
 
@@ -133,7 +142,7 @@ const deleteUser = asyncHandler(async (req, res, next) => {
  * @access  Private
  */
 const getMe = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user._id)
+  const user = await User.findById(req.user._id);
 
   if (!user) {
     return next(new ApiError('User not found', 404));
@@ -325,7 +334,7 @@ const uploadMedicalDocuments = asyncHandler(async (req, res, next) => {
   await user.save();
 
   res.status(200).json({
-    message: 'Medical documents uploaded successfully',
+    message: 'success',
     medicalDocuments: user.MedicalDocuments,
   });
 });
