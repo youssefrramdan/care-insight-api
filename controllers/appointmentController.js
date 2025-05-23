@@ -102,8 +102,8 @@ export const getAllAppointments = asyncHandler(async (req, res, next) => {
   }
 
   const appointments = await Appointment.find(filter)
-    .populate('doctor', 'fullname')
-    .populate('patient', 'fullname')
+    .populate('doctor', 'fullName')
+    .populate('patient', 'fullName')
     .sort({ appointmentDate: req.query.type === 'upcoming' ? 1 : -1 });
 
   res.status(200).json({
