@@ -446,6 +446,37 @@ const getMedicalDocuments = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @desc    Delete medical document
+ * @route   DELETE /api/v1/users/deleteMedicalDocument/:documentId
+ * @access  Private
+ */
+const deleteMedicalDocument = asyncHandler(async (req, res, next) => {
+  const { documentId } = req.params;
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    return next(new ApiError('User not found', 404));
+  }
+
+  const documentIndex = user.medicalDocuments.findIndex(
+    doc => doc._id.toString() === documentId
+  );
+
+  if (documentIndex === -1) {
+    return next(new ApiError('Document not found', 404));
+  }
+
+  // Remove the document from the array
+  user.medicalDocuments.splice(documentIndex, 1);
+  await user.save();
+
+  res.status(200).json({
+    message: 'success',
+    data: user.medicalDocuments,
+  });
+});
+
 export {
   createFilterObject,
   createUser,
@@ -462,4 +493,5 @@ export {
   getAllDoctors,
   uploadMedicalDocuments,
   getMedicalDocuments,
+  deleteMedicalDocument,
 };
