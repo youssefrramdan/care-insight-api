@@ -427,6 +427,25 @@ const getAllDoctors = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @desc    Get user medical documents
+ * @route   GET /api/v1/users/getMedicalDocuments
+ * @access  Private
+ */
+const getMedicalDocuments = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    return next(new ApiError('User not found', 404));
+  }
+
+  res.status(200).json({
+    message: 'success',
+    results: user.medicalDocuments.length,
+    data: user.medicalDocuments,
+  });
+});
+
 export {
   createFilterObject,
   createUser,
@@ -442,4 +461,5 @@ export {
   updateWorkingHours,
   getAllDoctors,
   uploadMedicalDocuments,
+  getMedicalDocuments,
 };

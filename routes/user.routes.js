@@ -14,6 +14,7 @@ import {
   getAllDoctors,
   createFilterObject,
   uploadMedicalDocuments,
+  getMedicalDocuments,
 } from '../controllers/user.controller.js';
 import { protectedRoutes, allowTo } from '../controllers/auth.controller.js';
 import createUploader from '../middlewares/cloudnairyMiddleware.js';
@@ -55,6 +56,9 @@ userRouter.post(
   upload.array('medicalDocuments', 5),
   uploadMedicalDocuments
 );
+
+// Add route for getting medical documents
+userRouter.get('/getMedicalDocuments', protectedRoutes, getMedicalDocuments);
 
 // Doctor-specific routes
 userRouter.patch(
