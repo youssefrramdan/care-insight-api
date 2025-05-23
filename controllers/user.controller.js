@@ -133,7 +133,10 @@ const deleteUser = asyncHandler(async (req, res, next) => {
  * @access  Private
  */
 const getMe = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(req.user._id).populate({
+    path: 'specialty',
+    select: 'name',
+  });
 
   if (!user) {
     return next(new ApiError('User not found', 404));
