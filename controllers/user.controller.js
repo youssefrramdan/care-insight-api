@@ -334,16 +334,16 @@ const uploadMedicalDocuments = asyncHandler(async (req, res, next) => {
   }
 
   // Add new documents to the existing array
-  if (!user.MedicalDocuments) {
-    user.MedicalDocuments = [];
+  if (!user.medicalDocuments) {
+    user.medicalDocuments = [];
   }
 
-  user.MedicalDocuments.push(...documents);
+  user.modifiedPathsedicalDocuments.push(...documents);
   await user.save();
 
   res.status(200).json({
     message: 'success',
-    medicalDocuments: user.MedicalDocuments,
+    medicalDocuments: user.medicalDocuments,
   });
 });
 
