@@ -138,17 +138,6 @@ export const getAppointmentById = asyncHandler(async (req, res, next) => {
     return next(new ApiError('No appointment found with that ID', 404));
   }
 
-  // Check if user has permission to view this appointment
-  if (
-    req.user.role !== 'admin' &&
-    appointment.patient.toString() !== req.user._id.toString() &&
-    appointment.doctor.toString() !== req.user._id.toString()
-  ) {
-    return next(
-      new ApiError('You do not have permission to view this appointment', 403)
-    );
-  }
-
   res.status(200).json({
     status: 'success',
     data: {
