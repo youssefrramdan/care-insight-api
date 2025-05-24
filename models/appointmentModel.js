@@ -21,9 +21,11 @@ const appointmentSchema = new mongoose.Schema(
       required: true,
     //   enum: [
     //     'Initial Consultation',
-    //     'Follow-up Appointment',
-    //     'Review Test Results',
-    //     'Discuss Treatment Plan',
+    //     'Follow-up',
+    //     'Regular Check-up',
+    //     'Emergency',
+    //     'Lab Results Review',
+    //     'Prescription Renewal',
     //     'Other',
     //   ],
     },
@@ -35,6 +37,30 @@ const appointmentSchema = new mongoose.Schema(
       type: String,
       enum: ['pending', 'confirmed', 'cancelled', 'completed'],
       default: 'pending',
+    },
+    appointmentReport: {
+      diagnosis: String,
+      symptoms: [String],
+      treatment: {
+        medications: [
+          {
+            name: String,
+            dosage: String,
+            frequency: String,
+            duration: String,
+          },
+        ],
+        recommendations: [String],
+      },
+      followUp: {
+        required: {
+          type: Boolean,
+          default: false,
+        },
+        date: Date,
+        notes: String,
+      },
+      completedAt: Date,
     },
     uploadedFiles: [
       {

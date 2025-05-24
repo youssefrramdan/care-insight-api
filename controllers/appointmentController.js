@@ -1,15 +1,17 @@
 import asyncHandler from 'express-async-handler';
 import ApiError from '../utils/apiError.js';
 import Appointment from '../models/appointmentModel.js';
+import User from '../models/userModel.js';
+import MedicalRecord from '../models/medicalRecordModel.js';
 
 // Create new appointment
 export const createAppointment = asyncHandler(async (req, res, next) => {
   const { doctor, appointmentDate, reasonForVisit, notes } = req.body;
 
   // Validate appointment date is in the future
-  if (new Date(appointmentDate) < new Date()) {
-    return next(new ApiError('Appointment date must be in the future', 400));
-  }
+  //   if (new Date(appointmentDate) < new Date()) {
+  //     return next(new ApiError('Appointment date must be in the future', 400));
+  //   }
 
   const appointment = await Appointment.create({
     doctor,
@@ -18,6 +20,18 @@ export const createAppointment = asyncHandler(async (req, res, next) => {
     reasonForVisit,
     notes,
   });
+
+  // Add patient to doctor's patients array and doctor to patient's doctors array
+  await Promise.all([
+    // Add patient to doctor's patients array if not already there
+    User.findByIdAndUpdate(doctor, {
+      $addToSet: { patients: req.user._id }, // $addToSet ensures no duplicates
+    }),
+    // Add doctor to patient's doctors array if not already there
+    User.findByIdAndUpdate(req.user._id, {
+      $addToSet: { doctors: doctor }, // $addToSet ensures no duplicates
+    }),
+  ]);
 
   res.status(201).json({
     status: 'success',
@@ -62,7 +76,6 @@ export const uploadAppointmentFiles = asyncHandler(async (req, res, next) => {
       uploadDate: new Date(),
     }));
   }
-  // Process uploaded files
 
   // Add new files to the appointment
   appointment.uploadedFiles = appointment.uploadedFiles || [];
@@ -233,9 +246,7 @@ export const confirmAppointment = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: {
-      appointment,
-    },
+    data: appointment,
   });
 });
 
@@ -268,18 +279,31 @@ export const completeAppointment = asyncHandler(async (req, res, next) => {
   }
 
   // Update appointment with medical notes and completion details
-  const { diagnosis, prescription, followUpNeeded, followUpDate } = req.body;
+  const { diagnosis, symptoms, treatment, followUp } = req.body;
 
+  // Update appointment status and medical notes
   appointment.status = 'completed';
-  appointment.medicalNotes = {
+  appointment.appointmentReport = {
     diagnosis,
-    prescription,
-    followUpNeeded,
-    followUpDate: followUpNeeded ? followUpDate : undefined,
+    symptoms,
+    treatment,
+    followUp,
     completedAt: new Date(),
   };
 
   await appointment.save();
+
+  // Create medical record
+  const medicalRecord = await MedicalRecord.create({
+    patient: appointment.patient,
+    doctor: appointment.doctor,
+    appointment: appointment._id,
+    diagnosis,
+    symptoms,
+    treatment,
+    followUp,
+    attachments: appointment.uploadedFiles,
+  });
 
   res.status(200).json({
     status: 'success',

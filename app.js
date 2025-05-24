@@ -15,6 +15,8 @@ import appointmentRouter from './routes/appointment.routes.js';
 import reviewRouter from './routes/review.routes.js';
 import messageRouter from "./routes/message.routes.js";
 import {app} from "./config/socket.js";
+import medicalRecordRouter from './routes/medicalRecord.routes.js';
+
 dotenv.config({ path: './config/config.env' });
 
 
@@ -62,6 +64,7 @@ app.use('/api/v1/diagnosis', diagnosisRouter);
 app.use('/api/v1/appointments', appointmentRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/message', messageRouter);
+app.use('/api/v1/medical-records', medicalRecordRouter);
 app.get('/ping', (req, res) => {
   res.status(200).send('pong');
 });

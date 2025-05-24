@@ -79,11 +79,24 @@ const userSchema = new mongoose.Schema(
     currentMedications: {
       type: [String],
     },
+    // Patient-specific fields
+    doctors: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
     // Doctor-specific fields
     specialty: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Specialty',
     },
+    patients: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
     workPlace: {
       type: String,
     },

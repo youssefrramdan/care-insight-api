@@ -1,10 +1,10 @@
 {
   "info": {
-    "_postman_id": "1a62119a-ae39-4790-973e-982612ba0945",
+    "_postman_id": "79c35f24-ddf8-4775-a815-81c46b359f7f",
     "name": "care-insight-api",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "45047710",
-    "_collection_link": "https://care-insight-api.postman.co/workspace/Team-Workspace~6d205971-743e-410b-8a91-e1ae8098bbcd/collection/45047710-1a62119a-ae39-4790-973e-982612ba0945?action=share&source=collection_link&creator=45047710"
+    "_collection_link": "https://care-insight-api.postman.co/workspace/Team-Workspace~6d205971-743e-410b-8a91-e1ae8098bbcd/collection/45047710-79c35f24-ddf8-4775-a815-81c46b359f7f?action=share&source=collection_link&creator=45047710"
   },
   "item": [
     {
@@ -71,9 +71,9 @@
               }
             ],
             "url": {
-              "raw": "{{URL}}/api/v1/users/6828dd9d501ccc64b229effb",
+              "raw": "{{URL}}/api/v1/users/682c7346adb8b5364a6f3db5",
               "host": ["{{URL}}"],
-              "path": ["api", "v1", "users", "6828dd9d501ccc64b229effb"]
+              "path": ["api", "v1", "users", "682c7346adb8b5364a6f3db5"]
             },
             "description": "Get specific user by ID (Admin only)"
           },
@@ -186,7 +186,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"fullName\": \"Ahmed Mohamed\",\n  \"email\": \"rmdanyoussef01@gmail.com\",\n  \"phoneNumber\": \"+201234567890\",\n  \"gender\": \"male\",\n  \"password\": \"password123\",\n  \"age\": 30,\n  \"height\": 175,\n  \"weight\": 75,\n  \"bloodType\": \"O+\",\n  \"medicalCondition\": \"Healthy\",\n  \"chronicDiseases\": [\"Hypertension\", \"Diabetes\"],\n  \"currentMedications\": [\"Insulin\", \"Captopril\"]\n}",
+                  "raw": "{\n  \"fullName\": \"Ahmed Mohamed\",\n  \"email\": \"rmdanyoussef@gmail.com\",\n  \"phoneNumber\": \"+201234567890\",\n  \"gender\": \"male\",\n  \"password\": \"password123\",\n  \"age\": 30,\n  \"height\": 175,\n  \"weight\": 75,\n  \"bloodType\": \"O+\",\n  \"medicalCondition\": \"Healthy\",\n  \"chronicDiseases\": [\"Hypertension\", \"Diabetes\"],\n  \"currentMedications\": [\"Insulin\", \"Captopril\"]\n}",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -249,7 +249,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "// admin\n// {\n//   \"email\": \"admin@gmail.com\",\n//   \"password\": \"password123\"\n// }\n\n// doctor\n{\n  \"email\": \"rmdanyoussef2@gmail.com\",\n  \"password\": \"newpassword123\"\n}\n\n// patient\n// {\n//   \"email\": \"ahmed@example.com\",\n//   \"password\": \"password123\"\n// }\n\n\n",
+                  "raw": "// admin\n// {\n//   \"email\": \"admin@gmail.com\",\n//   \"password\": \"password123\"\n// }\n\n// doctor\n// {\n//   \"email\": \"rmdanyoussef2@gmail.com\",\n//   \"password\": \"newpassword456\"\n// }\n\n// patient\n{\n  \"email\": \"rmdanyoussef@gmail.com\",\n  \"password\": \"password123\"\n}\n\n\n",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -663,33 +663,65 @@
             "description": "Delete a medical specialty (Admin only)"
           },
           "response": []
-        },
-        {
-          "name": "Get Doctors By Specialty (Public)",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{URL}}/api/v1/specialties/:specialtyId/users",
-              "host": ["{{URL}}"],
-              "path": ["api", "v1", "specialties", ":specialtyId", "users"],
-              "variable": [
-                {
-                  "key": "specialtyId",
-                  "value": "6828acf95556d140637c6689",
-                  "description": "Specialty ID"
-                }
-              ]
-            },
-            "description": "Get all doctors in a specific medical specialty"
-          },
-          "response": []
         }
       ]
     },
     {
       "name": "Doctor",
       "item": [
+        {
+          "name": "Get Medical Documents",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/users/getMedicalDocuments",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "getMedicalDocuments"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "upload medical documets",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "medicalDocuments",
+                  "type": "file",
+                  "src": [
+                    "/C:/Users/Youssef Ramadan/Desktop/1.jpg",
+                    "/C:/Users/Youssef Ramadan/Desktop/2.jpg",
+                    "/C:/Users/Youssef Ramadan/Desktop/3.jpg",
+                    "/C:/Users/Youssef Ramadan/Desktop/4.jpg"
+                  ]
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/users/uploadMedicalDocuments",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "uploadMedicalDocuments"]
+            }
+          },
+          "response": []
+        },
         {
           "name": "Update Working Hours (Doctor Only)",
           "request": {
@@ -718,6 +750,46 @@
             "description": "Update working hours for a doctor. Only available to authenticated doctors. The availability field will be automatically updated based on which days have from and to values."
           },
           "response": []
+        },
+        {
+          "name": "Delete Medical Document",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "medicalDocuments",
+                  "type": "file",
+                  "src": [
+                    "/C:/Users/Youssef Ramadan/Desktop/1.jpg",
+                    "/C:/Users/Youssef Ramadan/Desktop/2.jpg",
+                    "/C:/Users/Youssef Ramadan/Desktop/3.jpg",
+                    "/C:/Users/Youssef Ramadan/Desktop/4.jpg"
+                  ]
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/users/deleteMedicalDocument/6830ab59fde834bb5c36d7fd",
+              "host": ["{{URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "deleteMedicalDocument",
+                "6830ab59fde834bb5c36d7fd"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -730,17 +802,51 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{URL}}/api/v1/users/doctors?filterBy=Brain Cancer",
+              "raw": "{{URL}}/api/v1/users/doctors",
               "host": ["{{URL}}"],
-              "path": ["api", "v1", "users", "doctors"],
-              "query": [
-                {
-                  "key": "filterBy",
-                  "value": "Brain Cancer"
-                }
-              ]
+              "path": ["api", "v1", "users", "doctors"]
             },
             "description": "Get all doctors with their specialty information and profile details"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Doctors By Specialty (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/v1/specialties/6828acf95556d140637c6689/users",
+              "host": ["{{URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "specialties",
+                "6828acf95556d140637c6689",
+                "users"
+              ]
+            },
+            "description": "Get all doctors in a specific medical specialty"
+          },
+          "response": []
+        },
+        {
+          "name": "Get  Specific Doctor By ID (public)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/users/682c7346adb8b5364a6f3db5",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "682c7346adb8b5364a6f3db5"]
+            },
+            "description": "Get specific user by ID (Admin only)"
           },
           "response": []
         }
@@ -749,39 +855,6 @@
     {
       "name": "Diagnosis",
       "item": [
-        {
-          "name": "Breast Cancer Prediction (Doctor & Patient)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{JWT}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "formdata",
-              "formdata": [
-                {
-                  "key": "image",
-                  "description": "Breast cancer mammogram image",
-                  "type": "file",
-                  "src": "/P:/care-insigts models/Brain model/breast-model/test_images/benign/benign (1).png"
-                }
-              ]
-            },
-            "url": {
-              "raw": "http://127.0.0.1:8000/predict",
-              "protocol": "http",
-              "host": ["127", "0", "0", "1"],
-              "port": "8000",
-              "path": ["predict"]
-            },
-            "description": "Upload a mammogram image to predict breast cancer"
-          },
-          "response": []
-        },
         {
           "name": "Brain Tumor Detection (Doctor & Patient)",
           "request": {
@@ -797,18 +870,17 @@
               "mode": "formdata",
               "formdata": [
                 {
-                  "key": "file",
+                  "key": "image",
                   "description": "Brain MRI image",
                   "type": "file",
-                  "src": "/C:/Users/Youssef Ramadan/Desktop/2.jpg"
+                  "src": "/C:/Users/Youssef Ramadan/Desktop/gm.jpg"
                 }
               ]
             },
             "url": {
-              "raw": "https://brain-cancer-api-efdfd2c65bbe.herokuapp.com/predict",
-              "protocol": "https",
-              "host": ["brain-cancer-api-efdfd2c65bbe", "herokuapp", "com"],
-              "path": ["predict"]
+              "raw": "{{URL}}/api/v1/diagnosis/brain-tumor",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "diagnosis", "brain-tumor"]
             },
             "description": "Upload a brain MRI image to detect brain tumors"
           },
@@ -835,12 +907,49 @@
               }
             },
             "url": {
-              "raw": "https://gene-classify-api-557a7e2b2275.herokuapp.com/predict",
-              "protocol": "https",
-              "host": ["gene-classify-api-557a7e2b2275", "herokuapp", "com"],
-              "path": ["predict"]
+              "raw": "{{URL}}/api/v1/diagnosis/gene-classify",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "diagnosis", "gene-classify"]
             },
             "description": "Classify gene variations to predict their clinical significance"
+          },
+          "response": []
+        },
+        {
+          "name": "Skin Cancer",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "/C:/Users/Youssef Ramadan/Desktop/skin-1200x675-1.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/diagnosis/skin-cancer",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "diagnosis", "skin-cancer"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://127.0.0.1:5000/",
+              "protocol": "http",
+              "host": ["127", "0", "0", "1"],
+              "port": "5000",
+              "path": [""]
+            }
           },
           "response": []
         }
@@ -863,7 +972,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"doctor\": \"6828dd9d501ccc64b229effb\",\n  \"appointmentDate\": \"2024-03-25T10:00:00.000Z\",\n  \"reasonForVisit\": \"Regular checkup\",\n  \"notes\": \"Patient has been experiencing mild headaches\"\n}",
+              "raw": "{\n  \"doctor\": \"682c7346adb8b5364a6f3db5\",\n  \"appointmentDate\": \"2023-06-25\",\n  \"reasonForVisit\": \"Regular checkup\",\n  \"notes\": \"Patient has been experiencing mild headaches\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -881,6 +990,9 @@
         },
         {
           "name": "Get All My Appointments (Doctor & Patient)",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
           "request": {
             "method": "GET",
             "header": [
@@ -890,6 +1002,15 @@
                 "type": "text"
               }
             ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
             "url": {
               "raw": "{{URL}}/api/v1/appointments?type=upcoming",
               "host": ["{{URL}}"],
@@ -1036,7 +1157,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"diagnosis\": \"Patient has mild tension headaches\",\n  \"prescription\": [\"Paracetamol 500mg\", \"Rest and hydration\"],\n  \"followUpNeeded\": true,\n  \"followUpDate\": \"2024-04-25\"\n}",
+              "raw": "{\n  \"appointmentReport\": {\n    \"diagnosis\": \"Patient has mild tension headaches\",\n    \"symptoms\": [\"Headache\", \"Dizziness\"],\n    \"treatment\": {\n      \"medications\": [\n        {\n          \"name\": \"Paracetamol\",\n          \"dosage\": \"500mg\",\n          \"frequency\": \"Every 6 hours\",\n          \"duration\": \"5 days\"\n        }\n      ],\n      \"recommendations\": [\"Rest well\", \"Stay hydrated\", \"Avoid bright lights\"]\n    },\n    \"followUp\": {\n      \"required\": true,\n      \"date\": \"2024-04-25\",\n      \"notes\": \"Follow up to check if headaches have improved\"\n    }\n  }\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1074,9 +1195,9 @@
               "formdata": [
                 {
                   "key": "files",
+                  "description": "Upload up to 5 files",
                   "type": "file",
-                  "src": [],
-                  "description": "Upload up to 5 files"
+                  "src": []
                 }
               ]
             },
@@ -1114,7 +1235,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"doctorId\": \"6828dd9d501ccc64b229effb\",\n  \"rating\": 5,\n  \"comment\": \"Excellent doctor, very professional and caring.\"\n}",
+              "raw": "{\n  \"doctorId\": \"682c7346adb8b5364a6f3db5\",\n  \"rating\": 5,\n  \"comment\": \"Excellent doctor, very professional and caring.\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1136,15 +1257,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{URL}}/api/v1/reviews/doctor/:doctorId",
+              "raw": "{{URL}}/api/v1/reviews/doctor/682c7346adb8b5364a6f3db5",
               "host": ["{{URL}}"],
-              "path": ["api", "v1", "reviews", "doctor", ":doctorId"],
-              "variable": [
-                {
-                  "key": "doctorId",
-                  "value": "6828dd9d501ccc64b229effb",
-                  "description": "Doctor ID"
-                }
+              "path": [
+                "api",
+                "v1",
+                "reviews",
+                "doctor",
+                "682c7346adb8b5364a6f3db5"
               ]
             },
             "description": "Get all reviews for a specific doctor"
@@ -1216,6 +1336,196 @@
         }
       ],
       "description": "Endpoints for managing doctor reviews by patients"
+    },
+    {
+      "name": "Messages",
+      "item": [
+        {
+          "name": "getUsersForAsidebar",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/v1/message/users",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "message", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "sendingMessage",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "text",
+                  "value": "hii",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "postman-cloud:///1f034237-53c9-4650-9bd5-a6ce76a49ea7"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/message/682c7346adb8b5364a6f3db5",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "message", "682c7346adb8b5364a6f3db5"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getMessage",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{JWT}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/v1/message/682c7346adb8b5364a6f3db5",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "message", "682c7346adb8b5364a6f3db5"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Medical Records",
+      "item": [
+        {
+          "name": "Get All Medical Records (Admin Only)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/medical-records",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "medical-records"]
+            },
+            "description": "Get all medical records (Admin only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Patient Medical Records (Admin & Doctor)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/medical-records/patient/:patientId",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "medical-records", "patient", ":patientId"],
+              "variable": [
+                {
+                  "key": "patientId",
+                  "value": "PATIENT_ID_HERE",
+                  "description": "Patient ID"
+                }
+              ]
+            },
+            "description": "Get all medical records for a specific patient (Admin & Doctor only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Medical Records (Patient)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/medical-records/my-records",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "medical-records", "my-records"]
+            },
+            "description": "Get all medical records for the logged-in patient"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Specific Medical Record",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/medical-records/:id",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "medical-records", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "MEDICAL_RECORD_ID_HERE",
+                  "description": "Medical Record ID"
+                }
+              ]
+            },
+            "description": "Get a specific medical record by ID"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for managing patient medical records"
     }
   ],
   "event": [
