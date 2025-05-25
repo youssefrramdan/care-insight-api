@@ -525,8 +525,7 @@ const getUserStatistics = asyncHandler(async (req, res, next) => {
     date: app.appointmentDate,
     status: app.status,
     reasonForVisit: app.reasonForVisit,
-    doctor: req.user.role === 'patient' ? app.doctor.fullName : undefined,
-    patient: req.user.role === 'doctor' ? app.patient.fullName : undefined,
+    fullName: req.user.role === 'patient' ? app.doctor.fullName : app.patient.fullName,
     specialty: app.doctor.specialty?.name,
     clinicLocation: app.doctor.clinicLocation,
   }));
