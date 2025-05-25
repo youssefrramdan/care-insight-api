@@ -16,6 +16,7 @@ import {
   uploadMedicalDocuments,
   getMedicalDocuments,
   deleteMedicalDocument,
+  getUserStatistics,
 } from '../controllers/user.controller.js';
 import { protectedRoutes, allowTo } from '../controllers/auth.controller.js';
 import createUploader from '../middlewares/cloudnairyMiddleware.js';
@@ -60,7 +61,7 @@ userRouter.post(
 
 // Add route for getting medical documents
 userRouter.get('/getMedicalDocuments', protectedRoutes, getMedicalDocuments);
-
+userRouter.get('/statistics', protectedRoutes, getUserStatistics);
 // Add route for deleting medical document
 userRouter.delete(
   '/deleteMedicalDocument/:documentId',

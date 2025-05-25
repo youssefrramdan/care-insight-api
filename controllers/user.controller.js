@@ -5,6 +5,7 @@ import emailTemplate from '../utils/emailTemplate.js';
 import generateToken from '../utils/Token.js';
 import ApiError from '../utils/apiError.js';
 import Review from '../models/reviewModel.js';
+import Appointment from '../models/appointmentModel.js';
 
 /**
  * @middleware
@@ -482,6 +483,77 @@ const deleteMedicalDocument = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @desc    Get user statistics (appointments, medical records, etc)
+ * @route   GET /api/v1/users/statistics
+ * @access  Private
+ */
+const getUserStatistics = asyncHandler(async (req, res, next) => {
+  const userId = req.user._id;
+  const currentDate = new Date();
+
+  // Create filter based on user role
+  const filter =
+    req.user.role === 'doctor' ? { doctor: userId } : { patient: userId };
+
+  // Get appointments statistics
+  const appointments = await Appointment.find(filter)
+    .populate({
+      path: 'doctor',
+      select: 'fullName specialty profileImage clinicLocation',
+    })
+    .populate({
+      path: 'doctor.specialty',
+      select: 'name',
+    });
+
+  const totalAppointments = appointments.length;
+
+  // Get upcoming appointments with full details (not cancelled and date > now)
+  const upcomingAppointmentsList = appointments
+    .filter(
+      app =>
+        new Date(app.appointmentDate) > currentDate &&
+        app.status !== 'cancelled'
+    )
+    .sort((a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate))
+    .map(app => ({
+      id: app._id,
+      date: app.appointmentDate,
+      status: app.status,
+      reasonForVisit: app.reasonForVisit,
+      doctor: app.doctor.fullName,
+      specialty: app.doctor.specialty?.name,
+      clinicLocation: app.doctor.clinicLocation,
+    }));
+
+  const upcomingAppointments = upcomingAppointmentsList.length;
+
+  // Get medical records count (from user's medicalDocuments)
+  const user = await User.findById(userId);
+  const medicalRecordsCount = user.medicalDocuments
+    ? user.medicalDocuments.length
+    : 0;
+
+  // Get recent files (last 5 medical documents, sorted by most recent)
+  const recentFiles = user.medicalDocuments
+    ? user.medicalDocuments
+        .sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate))
+        .slice(0, 5)
+    : [];
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      totalAppointments,
+      upcomingAppointments,
+      upcomingAppointmentsList,
+      medicalRecordsCount,
+      recentFiles,
+    },
+  });
+});
+
 export {
   createFilterObject,
   createUser,
@@ -499,4 +571,5 @@ export {
   uploadMedicalDocuments,
   getMedicalDocuments,
   deleteMedicalDocument,
+  getUserStatistics,
 };
