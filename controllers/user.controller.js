@@ -152,6 +152,10 @@ const getMe = asyncHandler(async (req, res, next) => {
     .populate({
       path: 'doctors',
       select: 'fullName email profileImage',
+    })
+    .populate({
+      path: 'patients',
+      select: 'fullName email profileImage',
     });
 
   if (!user) {
