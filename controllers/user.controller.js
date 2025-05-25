@@ -506,6 +506,10 @@ const getUserStatistics = asyncHandler(async (req, res, next) => {
     .populate({
       path: 'doctor.specialty',
       select: 'name',
+    })
+    .populate({
+      path: 'patient',
+      select: 'fullName profileImage',
     });
 
   const totalAppointments = appointments.length;
@@ -523,7 +527,8 @@ const getUserStatistics = asyncHandler(async (req, res, next) => {
       date: app.appointmentDate,
       status: app.status,
       reasonForVisit: app.reasonForVisit,
-      doctor: app.doctor.fullName,
+      doctor: req.user.role === 'patient' ? app.doctor.fullName : undefined,
+      patient: req.user.role === 'doctor' ? app.patient.fullName : undefined,
       specialty: app.doctor.specialty?.name,
       clinicLocation: app.doctor.clinicLocation,
     }));
@@ -554,8 +559,8 @@ const getUserStatistics = asyncHandler(async (req, res, next) => {
       totalAppointments,
       upcomingAppointments,
       upcomingAppointmentsList,
-      medicalRecordsCount, // Doctor-created medical records
-      uploadedDocumentsCount, // User-uploaded documents
+      medicalRecordsCount,
+      uploadedDocumentsCount,
       recentFiles,
     },
   });
