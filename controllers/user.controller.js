@@ -492,61 +492,43 @@ const deleteMedicalDocument = asyncHandler(async (req, res, next) => {
 const getUserStatistics = asyncHandler(async (req, res, next) => {
   const userId = req.user._id;
   const currentDate = new Date();
-
-  // Create filter based on user role
   const filter =
     req.user.role === 'doctor' ? { doctor: userId } : { patient: userId };
 
-  // Get appointments statistics
-  const appointments = await Appointment.find(filter)
-    .populate({
-      path: 'doctor',
-      select: 'fullName specialty profileImage clinicLocation',
+  // Run all queries in parallel
+  const [appointments, medicalRecordsCount, user] = await Promise.all([
+    // Get only upcoming appointments directly from DB
+    Appointment.find({
+      ...filter,
+      appointmentDate: { $gt: currentDate },
+      status: { $ne: 'cancelled' },
     })
-    .populate({
-      path: 'doctor.specialty',
-      select: 'name',
-    })
-    .populate({
-      path: 'patient',
-      select: 'fullName profileImage',
-    });
+      .sort({ appointmentDate: 1 })
+      .populate('doctor', 'fullName specialty clinicLocation')
+      .populate('patient', 'fullName')
+      .populate('doctor.specialty', 'name'),
 
-  const totalAppointments = appointments.length;
+    // Get medical records count
+    medicalRecordModel.countDocuments(filter),
 
-  // Get upcoming appointments with full details (not cancelled and date > now)
-  const upcomingAppointmentsList = appointments
-    .filter(
-      app =>
-        new Date(app.appointmentDate) > currentDate &&
-        app.status !== 'cancelled'
-    )
-    .sort((a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate))
-    .map(app => ({
-      id: app._id,
-      date: app.appointmentDate,
-      status: app.status,
-      reasonForVisit: app.reasonForVisit,
-      doctor: req.user.role === 'patient' ? app.doctor.fullName : undefined,
-      patient: req.user.role === 'doctor' ? app.patient.fullName : undefined,
-      specialty: app.doctor.specialty?.name,
-      clinicLocation: app.doctor.clinicLocation,
-    }));
+    // Get user data
+    User.findById(userId, 'medicalDocuments'),
+  ]);
 
-  const upcomingAppointments = upcomingAppointmentsList.length;
+  // Process appointments data
+  const upcomingAppointmentsList = appointments.map(app => ({
+    id: app._id,
+    date: app.appointmentDate,
+    status: app.status,
+    reasonForVisit: app.reasonForVisit,
+    doctor: req.user.role === 'patient' ? app.doctor.fullName : undefined,
+    patient: req.user.role === 'doctor' ? app.patient.fullName : undefined,
+    specialty: app.doctor.specialty?.name,
+    clinicLocation: app.doctor.clinicLocation,
+  }));
 
-  // Get medical records count (from medicalRecordModel - doctor created records)
-  const medicalRecordsCount = await medicalRecordModel
-    .find(filter)
-    .countDocuments();
-
-  // Get user's uploaded medical documents count
-  const user = await User.findById(userId);
-  const uploadedDocumentsCount = user.medicalDocuments
-    ? user.medicalDocuments.length
-    : 0;
-
-  // Get recent files (last 5 medical documents, sorted by most recent)
+  // Process user documents
+  const uploadedDocumentsCount = user.medicalDocuments?.length || 0;
   const recentFiles = user.medicalDocuments
     ? user.medicalDocuments
         .sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate))
@@ -556,8 +538,8 @@ const getUserStatistics = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     data: {
-      totalAppointments,
-      upcomingAppointments,
+      totalAppointments: appointments.length,
+      upcomingAppointments: appointments.length,
       upcomingAppointmentsList,
       medicalRecordsCount,
       uploadedDocumentsCount,
