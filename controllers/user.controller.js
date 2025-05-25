@@ -6,6 +6,7 @@ import generateToken from '../utils/Token.js';
 import ApiError from '../utils/apiError.js';
 import Review from '../models/reviewModel.js';
 import Appointment from '../models/appointmentModel.js';
+import medicalRecordModel from '../models/medicalRecordModel.js';
 
 /**
  * @middleware
@@ -529,9 +530,14 @@ const getUserStatistics = asyncHandler(async (req, res, next) => {
 
   const upcomingAppointments = upcomingAppointmentsList.length;
 
-  // Get medical records count (from user's medicalDocuments)
+  // Get medical records count (from medicalRecordModel - doctor created records)
+  const medicalRecordsCount = await medicalRecordModel
+    .find(filter)
+    .countDocuments();
+
+  // Get user's uploaded medical documents count
   const user = await User.findById(userId);
-  const medicalRecordsCount = user.medicalDocuments
+  const uploadedDocumentsCount = user.medicalDocuments
     ? user.medicalDocuments.length
     : 0;
 
@@ -548,7 +554,8 @@ const getUserStatistics = asyncHandler(async (req, res, next) => {
       totalAppointments,
       upcomingAppointments,
       upcomingAppointmentsList,
-      medicalRecordsCount,
+      medicalRecordsCount, // Doctor-created medical records
+      uploadedDocumentsCount, // User-uploaded documents
       recentFiles,
     },
   });
