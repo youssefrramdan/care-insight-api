@@ -17,6 +17,8 @@ import {
   getMedicalDocuments,
   deleteMedicalDocument,
   getUserStatistics,
+  getPatientFiles,
+  getPatientById,
 } from '../controllers/user.controller.js';
 import { protectedRoutes, allowTo } from '../controllers/auth.controller.js';
 import createUploader from '../middlewares/cloudnairyMiddleware.js';
@@ -79,6 +81,10 @@ userRouter.patch(
 
 // Public route to get all doctors
 userRouter.get('/doctors', getAllDoctors);
+
+// Patient routes
+userRouter.get('/patients/:id', protectedRoutes, getPatientById);
+userRouter.get('/patients/:id/files', protectedRoutes, getPatientFiles);
 
 // Admin-only routes for user management
 // userRouter.use(allowTo('admin'));

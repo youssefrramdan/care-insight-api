@@ -1,10 +1,10 @@
 {
   "info": {
-    "_postman_id": "79c35f24-ddf8-4775-a815-81c46b359f7f",
+    "_postman_id": "07907a47-f71c-4af7-aa51-0dd3e19cade1",
     "name": "care-insight-api",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "45047710",
-    "_collection_link": "https://care-insight-api.postman.co/workspace/Team-Workspace~6d205971-743e-410b-8a91-e1ae8098bbcd/collection/45047710-79c35f24-ddf8-4775-a815-81c46b359f7f?action=share&source=collection_link&creator=45047710"
+    "_collection_link": "https://care-insight-api.postman.co/workspace/Team-Workspace~6d205971-743e-410b-8a91-e1ae8098bbcd/collection/45047710-07907a47-f71c-4af7-aa51-0dd3e19cade1?action=share&source=collection_link&creator=45047710"
   },
   "item": [
     {
@@ -249,7 +249,7 @@
                 "header": [],
                 "body": {
                   "mode": "raw",
-                  "raw": "// admin\n// {\n//   \"email\": \"admin@gmail.com\",\n//   \"password\": \"password123\"\n// }\n\n// doctor\n// {\n//   \"email\": \"rmdanyoussef2@gmail.com\",\n//   \"password\": \"newpassword456\"\n// }\n\n// patient\n{\n  \"email\": \"rmdanyoussef@gmail.com\",\n  \"password\": \"password123\"\n}\n\n\n",
+                  "raw": "// admin\n// {\n//   \"email\": \"admin@gmail.com\",\n//   \"password\": \"password123\"\n// }\n\n// doctor\n{\n  \"email\": \"rmdanyoussef2@gmail.com\",\n  \"password\": \"newpassword456\"\n}\n\n// patient\n// {\n//   \"email\": \"rmdanyoussef@gmail.com\",\n//   \"password\": \"password123\"\n// }\n\n\n",
                   "options": {
                     "raw": {
                       "language": "json"
@@ -506,6 +506,32 @@
               "path": ["api", "v1", "users", "changePassword"]
             },
             "description": "Change the current user's password"
+          },
+          "response": []
+        },
+        {
+          "name": "get User Statistics",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "// PATIENT UPDATE PROFILE EXAMPLE (uncomment to use)\n// {\n//   \"fullName\": \"Updated Patient Name\",\n//   \"phoneNumber\": \"+201098765432\",\n//   \"gender\": \"male\",\n//   \"age\": 32,\n//   \"height\": 178,\n//   \"weight\": 80,\n//   \"bloodType\": \"A+\",\n//   \"medicalCondition\": \"Healthy\",\n//   \"chronicDiseases\": [\"Asthma\"],\n//   \"currentMedications\": [\"Ventolin\"]\n// }\n\n// DOCTOR UPDATE PROFILE EXAMPLE (uncomment to use)\n{\n  \"fullName\": \"Dr. Updated Name\",\n  \"phoneNumber\": \"+201076543210\",\n  \"gender\": \"female\",\n  \"specialty\": \"6828acf95556d140637c6689\",\n  \"clinicLocation\": \"456 Medical St, Cairo\",\n  \"certifications\": [\"Board Certified\", \"Fellowship\"],\n  \"ProfessionalBio\": \"Experienced doctor with 10 years of practice\",\n  \"YearsOfExperience\": 10\n}"
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/users/statistics",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "statistics"]
+            }
           },
           "response": []
         }
@@ -849,6 +875,67 @@
             "description": "Get specific user by ID (Admin only)"
           },
           "response": []
+        },
+        {
+          "name": "Get Patient Files",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/users/patients/:id/files",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "patients", ":id", "files"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "",
+                  "description": "Patient ID"
+                }
+              ]
+            },
+            "description": "Get all files for a specific patient with counts for each type"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Patient Files By Type",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/users/patients/:id/files?filterBy=images",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "patients", ":id", "files"],
+              "query": [
+                {
+                  "key": "filterBy",
+                  "value": "images",
+                  "description": "Filter by file type: images, documents, or other"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "",
+                  "description": "Patient ID"
+                }
+              ]
+            },
+            "description": "Get patient files filtered by type (images, documents, or other)"
+          },
+          "response": []
         }
       ]
     },
@@ -972,7 +1059,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"doctor\": \"682c7346adb8b5364a6f3db5\",\n  \"appointmentDate\": \"2023-06-25\",\n  \"reasonForVisit\": \"Regular checkup\",\n  \"notes\": \"Patient has been experiencing mild headaches\"\n}",
+              "raw": "{\n  \"doctor\": \"682c7346adb8b5364a6f3db5\",\n  \"appointmentDate\": \"2025-06-25\",\n  \"reasonForVisit\": \"Regular checkup\",\n  \"notes\": \"Patient has been experiencing mild headaches\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1039,15 +1126,9 @@
               }
             ],
             "url": {
-              "raw": "{{URL}}/api/v1/appointments/:id",
+              "raw": "{{URL}}/api/v1/appointments/683132fe70958f4b3dc5132d",
               "host": ["{{URL}}"],
-              "path": ["api", "v1", "appointments", ":id"],
-              "variable": [
-                {
-                  "key": "id",
-                  "value": "APPOINTMENT_ID_HERE"
-                }
-              ]
+              "path": ["api", "v1", "appointments", "683132fe70958f4b3dc5132d"]
             },
             "description": "Get specific appointment details"
           },
@@ -1130,14 +1211,14 @@
               }
             ],
             "url": {
-              "raw": "{{URL}}/api/v1/appointments/:id/confirm",
+              "raw": "{{URL}}/api/v1/appointments/683189b43ae1683a3c8fc0ea/confirm",
               "host": ["{{URL}}"],
-              "path": ["api", "v1", "appointments", ":id", "confirm"],
-              "variable": [
-                {
-                  "key": "id",
-                  "value": "APPOINTMENT_ID_HERE"
-                }
+              "path": [
+                "api",
+                "v1",
+                "appointments",
+                "683189b43ae1683a3c8fc0ea",
+                "confirm"
               ]
             },
             "description": "Confirm an appointment (Doctor only)"
@@ -1157,7 +1238,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"appointmentReport\": {\n    \"diagnosis\": \"Patient has mild tension headaches\",\n    \"symptoms\": [\"Headache\", \"Dizziness\"],\n    \"treatment\": {\n      \"medications\": [\n        {\n          \"name\": \"Paracetamol\",\n          \"dosage\": \"500mg\",\n          \"frequency\": \"Every 6 hours\",\n          \"duration\": \"5 days\"\n        }\n      ],\n      \"recommendations\": [\"Rest well\", \"Stay hydrated\", \"Avoid bright lights\"]\n    },\n    \"followUp\": {\n      \"required\": true,\n      \"date\": \"2024-04-25\",\n      \"notes\": \"Follow up to check if headaches have improved\"\n    }\n  }\n}",
+              "raw": "    {\n        \"diagnosis\": \"Patient has mild tension headaches\",\n        \"symptoms\": [\"Headache\", \"Dizziness\"],\n        \"treatment\": {\n        \"medications\": [\n            {\n            \"name\": \"Paracetamol\",\n            \"dosage\": \"500mg\",\n            \"frequency\": \"Every 6 hours\",\n            \"duration\": \"5 days\"\n            }\n        ],\n        \"recommendations\": [\"Rest well\", \"Stay hydrated\", \"Avoid bright lights\"]\n        },\n        \"followUp\": {\n        \"required\": true,\n        \"notes\": \"Follow up to check if headaches have improved\"\n        }\n    }",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1165,14 +1246,14 @@
               }
             },
             "url": {
-              "raw": "{{URL}}/api/v1/appointments/:id/complete",
+              "raw": "{{URL}}/api/v1/appointments/683189b43ae1683a3c8fc0ea/complete",
               "host": ["{{URL}}"],
-              "path": ["api", "v1", "appointments", ":id", "complete"],
-              "variable": [
-                {
-                  "key": "id",
-                  "value": "APPOINTMENT_ID_HERE"
-                }
+              "path": [
+                "api",
+                "v1",
+                "appointments",
+                "683189b43ae1683a3c8fc0ea",
+                "complete"
               ]
             },
             "description": "Mark appointment as completed and add medical notes (Doctor only)"
@@ -1509,15 +1590,13 @@
               }
             ],
             "url": {
-              "raw": "{{URL}}/api/v1/medical-records/:id",
+              "raw": "{{URL}}/api/v1/medical-records/6830b88b82e1ee8f8ba407e4",
               "host": ["{{URL}}"],
-              "path": ["api", "v1", "medical-records", ":id"],
-              "variable": [
-                {
-                  "key": "id",
-                  "value": "MEDICAL_RECORD_ID_HERE",
-                  "description": "Medical Record ID"
-                }
+              "path": [
+                "api",
+                "v1",
+                "medical-records",
+                "6830b88b82e1ee8f8ba407e4"
               ]
             },
             "description": "Get a specific medical record by ID"
