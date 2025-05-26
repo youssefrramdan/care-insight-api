@@ -260,13 +260,6 @@ export const completeAppointment = asyncHandler(async (req, res, next) => {
     );
   }
 
-  // Check if appointment is confirmed
-  if (appointment.status !== 'confirmed') {
-    return next(
-      new ApiError('Only confirmed appointments can be completed', 400)
-    );
-  }
-
   // Update appointment with medical notes and completion details
   const { diagnosis, symptoms, treatment, followUp } = req.body;
 
