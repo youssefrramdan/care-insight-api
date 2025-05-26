@@ -525,7 +525,8 @@ const getUserStatistics = asyncHandler(async (req, res, next) => {
     date: app.appointmentDate,
     status: app.status,
     reasonForVisit: app.reasonForVisit,
-    fullName: req.user.role === 'patient' ? app.doctor.fullName : app.patient.fullName,
+    fullName:
+      req.user.role === 'patient' ? app.doctor.fullName : app.patient.fullName,
     specialty: app.doctor.specialty?.name,
     clinicLocation: app.doctor.clinicLocation,
   }));
@@ -551,6 +552,134 @@ const getUserStatistics = asyncHandler(async (req, res, next) => {
   });
 });
 
+/**
+ * @desc    Get patient by id with all related data
+ * @route   GET /api/v1/users/patients/:id
+ * @access  Private
+ */
+const getPatientById = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+
+  const patient = await User.findOne({ _id: id, role: 'patient' })
+    .select('+medicalDocuments')
+  if (!patient) {
+    return next(new ApiError(`No patient found with ID ${id}`, 404));
+  }
+
+  // Get medical records for the patient
+  const medicalRecords = await medicalRecordModel
+    .find({ patient: id })
+    .populate({
+      path: 'doctor',
+      select: 'fullName specialty',
+    })
+    .sort({ createdAt: -1 });
+
+  // Transform the response
+  const patientData = {
+    personalInformation: {
+      fullName: patient.fullName,
+      age: patient.age,
+      gender: patient.gender,
+      bloodType: patient.bloodType,
+    },
+    medicalCondition: {
+      currentCondition: patient.medicalCondition,
+      chronicDiseases: patient.chronicDiseases,
+      currentMedications: patient.currentMedications,
+    },
+    contact: {
+      email: patient.email,
+      phoneNumber: patient.phoneNumber,
+    },
+    medicalRecords: medicalRecords.map(record => ({
+      id: record._id,
+      diagnosis: record.diagnosis,
+      treatment: record.treatment,
+      doctor: {
+        name: record.doctor.fullName,
+        specialty: record.doctor.specialty,
+      },
+      date: record.createdAt,
+      notes: record.notes,
+    })),
+  };
+
+  res.status(200).json({
+    status: 'success',
+    data: patientData,
+  });
+});
+
+/**
+ * @desc    Get patient files by patient id with optional filtering
+ * @route   GET /api/v1/users/patients/:id/files
+ * @access  Private
+ */
+const getPatientFiles = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
+  const { filterBy } = req.query;
+
+  const patient = await User.findOne({ _id: id, role: 'patient' }).select(
+    'medicalDocuments'
+  );
+
+  if (!patient) {
+    return next(new ApiError(`No patient found with ID ${id}`, 404));
+  }
+
+  const getFileType = fileName => {
+    if (fileName.match(/\.(jpg|jpeg|png|gif)$/i)) return 'image';
+    if (fileName.match(/\.(pdf|doc|docx)$/i)) return 'document';
+    return 'other';
+  };
+
+  const files = patient.medicalDocuments || [];
+
+  // Create file categories
+  const filesByType = {
+    images: files.filter(doc => getFileType(doc.fileName) === 'image'),
+    documents: files.filter(doc => getFileType(doc.fileName) === 'document'),
+    other: files.filter(doc => getFileType(doc.fileName) === 'other'),
+  };
+
+  // Format files data
+  const formatFiles = fileList =>
+    fileList
+      .map(doc => ({
+        id: doc._id,
+        name: doc.fileName,
+        url: doc.fileUrl,
+        uploadDate: doc.uploadDate,
+        type: getFileType(doc.fileName),
+      }))
+      .sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
+
+  // Handle filtering
+  let filteredFiles = files;
+  const counts = {
+    all: files.length,
+    images: filesByType.images.length,
+    documents: filesByType.documents.length,
+    other: filesByType.other.length,
+  };
+
+  if (filterBy && filesByType[filterBy]) {
+    filteredFiles = filesByType[filterBy];
+  }
+
+  const filesData = {
+    counts,
+    results: filteredFiles.length,
+    files: formatFiles(filteredFiles),
+  };
+
+  res.status(200).json({
+    status: 'success',
+    data: filesData,
+  });
+});
+
 export {
   createFilterObject,
   createUser,
@@ -569,4 +698,6 @@ export {
   getMedicalDocuments,
   deleteMedicalDocument,
   getUserStatistics,
+  getPatientById,
+  getPatientFiles,
 };
