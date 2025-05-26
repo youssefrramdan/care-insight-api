@@ -5,6 +5,7 @@ import {
   brainCancer,
   breastCancer,
   geneClassify,
+  skinCancer,
 } from '../controllers/diagnosis.controller.js';
 
 const diagnosisRouter = express.Router();
@@ -18,5 +19,8 @@ diagnosisRouter.post('/brain-tumor', upload.single('image'), brainCancer);
 
 // Gene Classification Endpoint
 diagnosisRouter.post('/gene-classify', geneClassify);
+
+// Skin Cancer Prediction Endpoint
+diagnosisRouter.post('/skin-cancer', upload.single('image'), skinCancer);
 
 export default diagnosisRouter;

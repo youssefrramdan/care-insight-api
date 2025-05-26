@@ -65,25 +65,11 @@ const getUsersForSidebar = asyncHandler(async (req, res, next) => {
             else: "$senderUser._id"
           }
         },
-        firstname: {
+        fullName: {
           $cond: {
             if: { $eq: ["$lastMessage.senderId", loggedInUserId] },
-            then: "$receiverUser.firstname",
-            else: "$senderUser.firstname"
-          }
-        },
-        lastname: {
-          $cond: {
-            if: { $eq: ["$lastMessage.senderId", loggedInUserId] },
-            then: "$receiverUser.lastname",
-            else: "$senderUser.lastname"
-          }
-        },
-        phone: {
-          $cond: {
-            if: { $eq: ["$lastMessage.senderId", loggedInUserId] },
-            then: "$receiverUser.phone",
-            else: "$senderUser.phone"
+            then: "$receiverUser.fullName",
+            else: "$senderUser.fullName"
           }
         },
         email: {
@@ -96,8 +82,8 @@ const getUsersForSidebar = asyncHandler(async (req, res, next) => {
         profileImage: {
           $cond: {
             if: { $eq: ["$lastMessage.senderId", loggedInUserId] },
-            then: { $concat: [process.env.BASE_URL, "/users/", "$receiverUser.profileImage"] },
-            else: { $concat: [process.env.BASE_URL, "/users/", "$senderUser.profileImage"] }
+            then: "$receiverUser.profileImage",
+            else: "$senderUser.profileImage"
           }
         },
         lastMessage: {

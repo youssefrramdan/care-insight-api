@@ -42,6 +42,28 @@ const brainCancer = asyncHandler(async (req, res) => {
   });
 });
 
+const skinCancer = asyncHandler(async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No image file provided' });
+  }
+
+  // Get the Cloudinary URL from the uploaded file
+  const imageUrl = req.file.path;
+
+  // Call the skin cancer prediction API
+  const response = await axios.post(
+    'https://skin-cancer-api-fc3b6db8b2c2.herokuapp.com/api/predict',
+    {
+      url: imageUrl,
+    }
+  );
+
+  res.status(200).json({
+    status: 'success',
+    data: response.data,
+  });
+});
+
 const geneClassify = asyncHandler(async (req, res) => {
   const { gene, variation, text } = req.body;
 
@@ -70,4 +92,4 @@ const geneClassify = asyncHandler(async (req, res) => {
   });
 });
 
-export { breastCancer, brainCancer, geneClassify };
+export { breastCancer, brainCancer, skinCancer, geneClassify };
