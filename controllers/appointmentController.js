@@ -154,16 +154,6 @@ export const cancelAppointment = asyncHandler(async (req, res, next) => {
     return next(new ApiError('No appointment found with that ID', 404));
   }
 
-  // Check if user has permission to cancel this appointment
-  if (
-    (req.user.role !== 'admin' &&
-      appointment.patient.toString() !== req.user._id.toString()) ||
-    appointment.doctor.toString() !== req.user._id.toString()
-  ) {
-    return next(
-      new ApiError('You do not have permission to cancel this appointment', 403)
-    );
-  }
 
   appointment.status = 'cancelled';
   await appointment.save();
