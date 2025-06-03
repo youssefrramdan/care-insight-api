@@ -1,10 +1,10 @@
 {
   "info": {
-    "_postman_id": "07907a47-f71c-4af7-aa51-0dd3e19cade1",
+    "_postman_id": "d37ca2f0-914d-4ee0-9172-5ad18cf49968",
     "name": "care-insight-api",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "45047710",
-    "_collection_link": "https://care-insight-api.postman.co/workspace/Team-Workspace~6d205971-743e-410b-8a91-e1ae8098bbcd/collection/45047710-07907a47-f71c-4af7-aa51-0dd3e19cade1?action=share&source=collection_link&creator=45047710"
+    "_collection_link": "https://care-insight-api.postman.co/workspace/Team-Workspace~6d205971-743e-410b-8a91-e1ae8098bbcd/collection/45047710-d37ca2f0-914d-4ee0-9172-5ad18cf49968?action=share&source=collection_link&creator=45047710"
   },
   "item": [
     {
@@ -823,6 +823,66 @@
       "name": "Patient",
       "item": [
         {
+          "name": "Get Patient By id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/users/patients/6830b88b82e1ee8f8ba407e4",
+              "host": ["{{URL}}"],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "patients",
+                "6830b88b82e1ee8f8ba407e4"
+              ]
+            },
+            "description": "Get all files for a specific patient with counts for each type"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Patient Files By Type",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/users/patients/:id/files?filterBy=images",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "users", "patients", ":id", "files"],
+              "query": [
+                {
+                  "key": "filterBy",
+                  "value": "images",
+                  "description": "Filter by file type: images, documents, or other"
+                }
+              ],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "",
+                  "description": "Patient ID"
+                }
+              ]
+            },
+            "description": "Get patient files filtered by type (images, documents, or other)"
+          },
+          "response": []
+        },
+        {
           "name": "Get All Doctors (Patient & Public)",
           "request": {
             "method": "GET",
@@ -873,67 +933,6 @@
               "path": ["api", "v1", "users", "682c7346adb8b5364a6f3db5"]
             },
             "description": "Get specific user by ID (Admin only)"
-          },
-          "response": []
-        },
-        {
-          "name": "Get Patient Files",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{JWT}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/api/v1/users/patients/:id/files",
-              "host": ["{{URL}}"],
-              "path": ["api", "v1", "users", "patients", ":id", "files"],
-              "variable": [
-                {
-                  "key": "id",
-                  "value": "",
-                  "description": "Patient ID"
-                }
-              ]
-            },
-            "description": "Get all files for a specific patient with counts for each type"
-          },
-          "response": []
-        },
-        {
-          "name": "Get Patient Files By Type",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{JWT}}",
-                "type": "text"
-              }
-            ],
-            "url": {
-              "raw": "{{URL}}/api/v1/users/patients/:id/files?filterBy=images",
-              "host": ["{{URL}}"],
-              "path": ["api", "v1", "users", "patients", ":id", "files"],
-              "query": [
-                {
-                  "key": "filterBy",
-                  "value": "images",
-                  "description": "Filter by file type: images, documents, or other"
-                }
-              ],
-              "variable": [
-                {
-                  "key": "id",
-                  "value": "",
-                  "description": "Patient ID"
-                }
-              ]
-            },
-            "description": "Get patient files filtered by type (images, documents, or other)"
           },
           "response": []
         }
@@ -1605,6 +1604,276 @@
         }
       ],
       "description": "Endpoints for managing patient medical records"
+    },
+    {
+      "name": "Health Talks",
+      "item": [
+        {
+          "name": "Create Health Talk (Doctor Only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Understanding Seasonal Allergies",
+                  "type": "text"
+                },
+                {
+                  "key": "content",
+                  "value": "Seasonal allergies, also known as hay fever, affect millions of people worldwide...",
+                  "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "Articles",
+                  "type": "text"
+                },
+                {
+                  "key": "tags",
+                  "value": "Allergies,Seasonal Health",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/health-talks",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "health-talks"]
+            },
+            "description": "Create a new health talk (Doctors only)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Health Talks",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/v1/health-talks?keyword=diabetes&category=Articles&tags=Health Tips&page=1&limit=10",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "health-talks"],
+              "query": [
+                {
+                  "key": "keyword",
+                  "value": "diabetes",
+                  "description": "Search in title, content and tags",
+                  "disabled": true
+                },
+                {
+                  "key": "category",
+                  "value": "Articles",
+                  "description": "Filter by category",
+                  "disabled": true
+                },
+                {
+                  "key": "tags",
+                  "value": "Health Tips",
+                  "description": "Filter by tags (comma-separated)",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Get all health talks with optional filtering and search"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Health Talk by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{URL}}/api/v1/health-talks/:id",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "health-talks", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "HEALTH_TALK_ID_HERE",
+                  "description": "Health Talk ID"
+                }
+              ]
+            },
+            "description": "Get a specific health talk by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Health Talk (Author Only)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Updated: Understanding Seasonal Allergies",
+                  "type": "text"
+                },
+                {
+                  "key": "content",
+                  "value": "Updated content about seasonal allergies...",
+                  "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "Articles",
+                  "type": "text"
+                },
+                {
+                  "key": "tags",
+                  "value": "Allergies,Seasonal Health,Health Tips",
+                  "type": "text"
+                },
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/health-talks/:id",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "health-talks", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "HEALTH_TALK_ID_HERE",
+                  "description": "Health Talk ID"
+                }
+              ]
+            },
+            "description": "Update a health talk (only by the author)"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Health Talk (Author Only)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/health-talks/:id",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "health-talks", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "HEALTH_TALK_ID_HERE",
+                  "description": "Health Talk ID"
+                }
+              ]
+            },
+            "description": "Delete a health talk (only by the author)"
+          },
+          "response": []
+        },
+        {
+          "name": "Add Comment (Authenticated Users)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Very informative article about seasonal allergies!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/api/v1/health-talks/:id/comments",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "health-talks", ":id", "comments"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "HEALTH_TALK_ID_HERE",
+                  "description": "Health Talk ID"
+                }
+              ]
+            },
+            "description": "Add a comment to a health talk"
+          },
+          "response": []
+        },
+        {
+          "name": "Toggle Like (Authenticated Users)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{JWT}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{URL}}/api/v1/health-talks/:id/like",
+              "host": ["{{URL}}"],
+              "path": ["api", "v1", "health-talks", ":id", "like"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "HEALTH_TALK_ID_HERE",
+                  "description": "Health Talk ID"
+                }
+              ]
+            },
+            "description": "Like or unlike a health talk"
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for managing health talks, articles, and educational content"
     }
   ],
   "event": [
