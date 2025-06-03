@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const healthTalkSchema = new mongoose.Schema(
   {
@@ -76,4 +76,4 @@ healthTalkSchema.pre(/^find/, function (next) {
 
 const HealthTalk = mongoose.model('HealthTalk', healthTalkSchema);
 
-module.exports = HealthTalk;
+export default HealthTalk;

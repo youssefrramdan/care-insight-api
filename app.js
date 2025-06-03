@@ -13,14 +13,12 @@ import userRouter from './routes/user.routes.js';
 import diagnosisRouter from './routes/diagnosis.routes.js';
 import appointmentRouter from './routes/appointment.routes.js';
 import reviewRouter from './routes/review.routes.js';
-import messageRouter from "./routes/message.routes.js";
-import {app} from "./config/socket.js";
+import messageRouter from './routes/message.routes.js';
+import { app } from './config/socket.js';
 import medicalRecordRouter from './routes/medicalRecord.routes.js';
+import healthTalkRouter from './routes/healthTalk.routes.js';
 
 dotenv.config({ path: './config/config.env' });
-
-
-
 
 // Rate limiting
 const limiter = rateLimit({
@@ -41,8 +39,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(compression());
 
-
-
 // middlewares
 app.use(express.json());
 app.use(cookieParser());
@@ -51,10 +47,9 @@ if (process.env.NODE_ENV === 'development') {
   console.log(`mode : ${process.env.NODE_ENV}`);
 }
 
-app.get("/test",(req,res)=>{
-  res.json("done ")
-})
-
+app.get('/test', (req, res) => {
+  res.json('done ');
+});
 
 //mount Routes
 app.use('/api/v1/auth', authRouter);
@@ -65,10 +60,10 @@ app.use('/api/v1/appointments', appointmentRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/message', messageRouter);
 app.use('/api/v1/medical-records', medicalRecordRouter);
+app.use('/api/v1/health-talks', healthTalkRouter);
 app.get('/ping', (req, res) => {
   res.status(200).send('pong');
 });
-
 
 // Handle undefined routes
 app.all('*', (req, res, next) => {
@@ -79,8 +74,3 @@ app.all('*', (req, res, next) => {
 app.use(globalError);
 
 export default app;
-
-
-
-
-
