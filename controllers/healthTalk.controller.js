@@ -87,7 +87,8 @@ const getAllHealthTalks = asyncHandler(async (req, res, next) => {
 const getHealthTalkById = asyncHandler(async (req, res, next) => {
   const healthTalk = await HealthTalk.findById(req.params.id)
     .populate('author', 'name specialty photo')
-    .populate('comments.user', 'name photo');
+    .populate('comments.user', 'name photo')
+    .populate('likes', 'fullName profileImage');
 
   if (!healthTalk) {
     return next(new ApiError('No health talk found with that ID', 404));
