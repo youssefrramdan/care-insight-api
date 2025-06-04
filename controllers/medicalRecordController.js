@@ -51,21 +51,104 @@ export const getPatientMedicalRecords = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/medical-records/my-records
 // @access  Private
 export const getMyMedicalRecords = asyncHandler(async (req, res) => {
-  let medicalRecords;
+  const { search } = req.query;
 
-  if (req.user.role === 'doctor') {
-    medicalRecords = await MedicalRecord.find({ doctor: req.user._id })
-      .populate('doctor', 'fullName specialty')
-      .populate('patient', 'fullName')
-      .populate('appointment', 'appointmentDate reasonForVisit diagnosis')
-      .sort('-appointmentDate');
-  } else {
-    medicalRecords = await MedicalRecord.find({ patient: req.user._id })
-      .populate('doctor', 'fullName specialty')
-      .populate('patient', 'fullName')
-      .populate('appointment', 'appointmentDate reasonForVisit diagnosis')
-      .sort('-appointmentDate');
+  // Start with the role-based match stage
+  const matchStage =
+    req.user.role === 'doctor'
+      ? { doctor: req.user._id }
+      : { patient: req.user._id };
+
+  // Create the pipeline
+  const pipeline = [
+    {
+      $match: matchStage,
+    },
+    // Lookup appointments
+    {
+      $lookup: {
+        from: 'appointments',
+        localField: 'appointment',
+        foreignField: '_id',
+        as: 'appointmentData',
+      },
+    },
+    // Lookup patients
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'patient',
+        foreignField: '_id',
+        as: 'patientData',
+      },
+    },
+    // Lookup doctors
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'doctor',
+        foreignField: '_id',
+        as: 'doctorData',
+      },
+    },
+    // Unwind the arrays created by lookups
+    {
+      $unwind: '$appointmentData',
+    },
+    {
+      $unwind: '$patientData',
+    },
+    {
+      $unwind: '$doctorData',
+    },
+  ];
+
+  // Add search condition if search parameter exists
+  if (search) {
+    pipeline.push({
+      $match: {
+        $or: [
+          { 'appointmentData.diagnosis': { $regex: search, $options: 'i' } },
+          {
+            'appointmentData.reasonForVisit': { $regex: search, $options: 'i' },
+          },
+          { 'patientData.fullName': { $regex: search, $options: 'i' } },
+          { 'doctorData.fullName': { $regex: search, $options: 'i' } },
+        ],
+      },
+    });
   }
+
+  // Add final projection to format the output
+  pipeline.push({
+    $project: {
+      _id: 1,
+      appointment: {
+        _id: '$appointmentData._id',
+        appointmentDate: '$appointmentData.appointmentDate',
+        reasonForVisit: '$appointmentData.reasonForVisit',
+        diagnosis: '$appointmentData.diagnosis',
+      },
+      patient: {
+        _id: '$patientData._id',
+        fullName: '$patientData.fullName',
+      },
+      doctor: {
+        _id: '$doctorData._id',
+        fullName: '$doctorData.fullName',
+        specialty: '$doctorData.specialty',
+      },
+      createdAt: 1,
+      updatedAt: 1,
+    },
+  });
+
+  // Add sorting
+  pipeline.push({
+    $sort: { 'appointment.appointmentDate': -1 },
+  });
+
+  const medicalRecords = await MedicalRecord.aggregate(pipeline);
 
   res.status(200).json({
     status: 'success',
