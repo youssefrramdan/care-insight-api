@@ -35,7 +35,7 @@ export const getPatientMedicalRecords = asyncHandler(async (req, res, next) => {
 
   const medicalRecords = await MedicalRecord.find({ patient: patientId })
     .populate('doctor', 'fullName specialty')
-    .populate('appointment', 'appointmentDate reasonForVisit')
+    .populate('appointment', 'appointmentDate reasonForVisit diagnosis')
     .sort('-appointmentDate');
 
   res.status(200).json({
@@ -51,17 +51,26 @@ export const getPatientMedicalRecords = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/medical-records/my-records
 // @access  Private
 export const getMyMedicalRecords = asyncHandler(async (req, res) => {
-  const medicalRecords = await MedicalRecord.find({ patient: req.user._id })
-    .populate('doctor', 'fullName specialty')
-    .populate('appointment', 'appointmentDate reasonForVisit')
-    .sort('-appointmentDate');
+  let medicalRecords;
+
+  if (req.user.role === 'doctor') {
+    medicalRecords = await MedicalRecord.find({ doctor: req.user._id })
+      .populate('doctor', 'fullName specialty')
+      .populate('patient', 'fullName')
+      .populate('appointment', 'appointmentDate reasonForVisit diagnosis')
+      .sort('-appointmentDate');
+  } else {
+    medicalRecords = await MedicalRecord.find({ patient: req.user._id })
+      .populate('doctor', 'fullName specialty')
+      .populate('patient', 'fullName')
+      .populate('appointment', 'appointmentDate reasonForVisit diagnosis')
+      .sort('-appointmentDate');
+  }
 
   res.status(200).json({
     status: 'success',
     results: medicalRecords.length,
-    data: {
-      medicalRecords,
-    },
+    data: medicalRecords,
   });
 });
 
