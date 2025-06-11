@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import messageModel from '../models/messageModel.js';
 import User from '../models/userModel.js';
+import ApiError from '../utils/apiError.js';
 
 const getUsersForSidebar = asyncHandler(async (req, res, next) => {
   const loggedInUserId = req.user._id;
@@ -26,12 +27,12 @@ const getUsersForSidebar = asyncHandler(async (req, res, next) => {
       }
     },
     {
-      $sort: { createdAt: -1 } 
+      $sort: { createdAt: -1 }
     },
     {
       $group: {
-        _id: "$chatKey", 
-        lastMessage: { $first: "$$ROOT" } 
+        _id: "$chatKey",
+        lastMessage: { $first: "$$ROOT" }
       }
     },
     {
@@ -105,7 +106,7 @@ const sendMessage = asyncHandler(async(req, res, next) => {
     const { text } = req.body;
     const image=req.file?.path
     const { id: receiverId } = req.params;
-    
+
     const senderId = req.user._id;
     // req.body.receiverId = receiverId;
     // req.body.senderId = senderId;
@@ -118,11 +119,11 @@ const sendMessage = asyncHandler(async(req, res, next) => {
       senderId,
       text:req.body.text,
       image:req.file?.path,
-      
+
     });
 
     if(!message) {
-        return next(new AppError("There is an error creating message", 400));
+        return next(new ApiError("There is an error creating message", 400));
     }
 
     res.status(200).json({ message });
