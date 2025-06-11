@@ -21,7 +21,7 @@ router.get('/', getAllSpecialties);
 router.get('/:id', getSpecificSpecialty);
 
 // Protected admin routes
-router.use(protectedRoutes, allowTo('admin'));
+// router.use(protectedRoutes, allowTo('admin'));
 
 router.post('/', upload.single('imageCover'), createSpecialty);
 router.put('/:id', upload.single('imageCover'), updateSpecialty);
